@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.octangames.tools": {
+      "version": "https://github.com/TheOctan/OctanGamesTools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a62747ea64613b1f93ede0c6ed7a610988a95de8"
+    },
     "com.unity.collab-proxy": {
       "version": "2.3.1",
       "depth": 0,
