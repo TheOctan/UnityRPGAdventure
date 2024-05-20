@@ -20,15 +20,21 @@ namespace OctanGames.Hero
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
 
+        [SerializeField] private Animator _animator;
+        [SerializeField] private CharacterController _characterController;
+
         public AnimatorState State { get; private set; }
 
-        public Animator Animator;
+        private void Update()
+        {
+            _animator.SetFloat(_moveHash, _characterController.velocity.magnitude, 0.1f, Time.deltaTime);
+        }
 
         public bool IsAttacking => State == AnimatorState.Attack;
-        public void PlayHit() => Animator.SetTrigger(_hitHash);
-        public void PlayAttack() => Animator.SetTrigger(_attackHash);
-        public void PlayDeath() => Animator.SetTrigger(_dieHash);
-        public void ResetToIdle() => Animator.Play(_idleStateHash, -1);
+        public void PlayHit() => _animator.SetTrigger(_hitHash);
+        public void PlayAttack() => _animator.SetTrigger(_attackHash);
+        public void PlayDeath() => _animator.SetTrigger(_dieHash);
+        public void ResetToIdle() => _animator.Play(_idleStateHash, -1);
 
         public void EnteredState(int stateHash)
         {
