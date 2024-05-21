@@ -1,3 +1,6 @@
+using OctanGames.CameraLogic;
+using UnityEngine;
+
 namespace OctanGames.Infrastructure
 {
     public class LoadLevelState : IPayLoadedState<string>
@@ -11,14 +14,35 @@ namespace OctanGames.Infrastructure
             _sceneLoader = sceneLoader;
         }
 
-        public void Enter(string sceneName)
+        void IPayLoadedState<string>.Enter(string sceneName)
         {
-            _sceneLoader.Load(sceneName);
+            _sceneLoader.Load(sceneName, OnLoaded);
         }
 
-        public void Exit()
+        void IExitableState.Exit()
         {
             
+        }
+
+        private void OnLoaded()
+        {
+            GameObject hero = Instantiate("Hero/Hero");
+            Instantiate("Hud/Hud");
+            
+            CameraFollow(hero);
+        }
+
+        private void CameraFollow(GameObject gameObject)
+        {
+            Camera.main
+                .GetComponent<CameraFollow>()
+                .Follow(gameObject);
+        }
+
+        private static GameObject Instantiate(string path)
+        {
+            var heroPrefab = Resources.Load<GameObject>(path);
+            return Object.Instantiate(heroPrefab);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace OctanGames.Hero
         private void Start()
         {
             _camera = Camera.main;
-            CameraFollow();
         }
 
         private void Update()
@@ -40,11 +39,6 @@ namespace OctanGames.Hero
             movementVector += Physics.gravity;
 
             _characterController.Move(_movementSpeed * Time.deltaTime * movementVector);
-        }
-
-        private void CameraFollow()
-        {
-            _camera.GetComponent<CameraFollow>().Follow(gameObject);
         }
     }
 }
