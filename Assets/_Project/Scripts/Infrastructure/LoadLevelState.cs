@@ -1,4 +1,5 @@
 using OctanGames.CameraLogic;
+using OctanGames.Logic;
 using UnityEngine;
 
 namespace OctanGames.Infrastructure
@@ -6,34 +7,41 @@ namespace OctanGames.Infrastructure
     public class LoadLevelState : IPayLoadedState<string>
     {
         private const string INITIAL_POINT_TAG = "InitialPoint";
+        private const string HERO_PATH = "Hero/Hero";
+        private const string HUD_PATH = "Hud/Hud";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly LoadingCurtain _curtain;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _curtain = curtain;
         }
 
         void IPayLoadedState<string>.Enter(string sceneName)
         {
+            _curtain.Show();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
         void IExitableState.Exit()
         {
-            
+            _curtain.Hide();
         }
 
         private void OnLoaded()
         {
             GameObject initialPoint = GameObject.FindWithTag(INITIAL_POINT_TAG);
 
-            GameObject hero = Instantiate("Hero/Hero", position: initialPoint.transform.position);
-            Instantiate("Hud/Hud");
+            GameObject hero = Instantiate(HERO_PATH, position: initialPoint.transform.position);
+            Instantiate(HUD_PATH);
             
             CameraFollow(hero);
+
+            _stateMachine.Enter<GameLoopState>();
         }
 
         private void CameraFollow(GameObject gameObject)
