@@ -23,14 +23,14 @@ namespace OctanGames.Infrastructure
             _sceneLoader.Load(INITIAL_SCENE, onLoaded: EnterLoadLevel);
         }
 
-        private void EnterLoadLevel()
-        {
-            _stateMachine.Enter<LoadLevelState>();
-        }
-
-        void IState.Exit()
+        void IExitableState.Exit()
         {
             
+        }
+
+        private void EnterLoadLevel()
+        {
+            _stateMachine.Enter<LoadLevelState, string>("Main");
         }
 
         private void RegisterServices()

@@ -1,6 +1,6 @@
 namespace OctanGames.Infrastructure
 {
-    public class LoadLevelState : IState
+    public class LoadLevelState : IPayLoadedState<string>
     {
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -11,9 +11,9 @@ namespace OctanGames.Infrastructure
             _sceneLoader = sceneLoader;
         }
 
-        public void Enter()
+        public void Enter(string sceneName)
         {
-            _sceneLoader.Load("Main");
+            _sceneLoader.Load(sceneName);
         }
 
         public void Exit()
