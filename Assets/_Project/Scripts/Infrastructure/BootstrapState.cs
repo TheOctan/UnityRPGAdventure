@@ -25,7 +25,7 @@ namespace OctanGames.Infrastructure
 
         private void EnterLoadLevel()
         {
-            // _stateMachine
+            _stateMachine.Enter<LoadLevelState>();
         }
 
         void IState.Exit()
