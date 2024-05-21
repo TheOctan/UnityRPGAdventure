@@ -5,6 +5,8 @@ namespace OctanGames.Infrastructure
 {
     public class LoadLevelState : IPayLoadedState<string>
     {
+        private const string INITIAL_POINT_TAG = "InitialPoint";
+
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -26,7 +28,9 @@ namespace OctanGames.Infrastructure
 
         private void OnLoaded()
         {
-            GameObject hero = Instantiate("Hero/Hero");
+            GameObject initialPoint = GameObject.FindWithTag(INITIAL_POINT_TAG);
+
+            GameObject hero = Instantiate("Hero/Hero", position: initialPoint.transform.position);
             Instantiate("Hud/Hud");
             
             CameraFollow(hero);
@@ -43,6 +47,11 @@ namespace OctanGames.Infrastructure
         {
             var heroPrefab = Resources.Load<GameObject>(path);
             return Object.Instantiate(heroPrefab);
+        }
+        private static GameObject Instantiate(string path, Vector3 position)
+        {
+            var heroPrefab = Resources.Load<GameObject>(path);
+            return Object.Instantiate(heroPrefab, position, Quaternion.identity);
         }
     }
 }
