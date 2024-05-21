@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace OctanGames.Infrastructure
 {
-    public class GameBootstrapper : MonoBehaviour
+    public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
         private Game _game;
 
