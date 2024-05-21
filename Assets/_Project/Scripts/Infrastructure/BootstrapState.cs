@@ -6,16 +6,26 @@ namespace OctanGames.Infrastructure
 {
     public class BootstrapState : IState
     {
-        private readonly GameStateMachine _stateMachine;
+        private const string INITIAL_SCENE = "Initial";
 
-        public BootstrapState(GameStateMachine stateMachine)
+        private readonly GameStateMachine _stateMachine;
+        private readonly SceneLoader _sceneLoader;
+
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
             _stateMachine = stateMachine;
+            _sceneLoader = sceneLoader;
         }
 
         void IState.Enter()
         {
             RegisterServices();
+            _sceneLoader.Load(INITIAL_SCENE, onLoaded: EnterLoadLevel);
+        }
+
+        private void EnterLoadLevel()
+        {
+            // _stateMachine
         }
 
         void IState.Exit()
