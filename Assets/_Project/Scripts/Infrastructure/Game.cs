@@ -1,6 +1,5 @@
-using System;
+using OctanGames.Logic;
 using OctanGames.Services.Input;
-using UnityEngine.Device;
 
 namespace OctanGames.Infrastructure
 {
@@ -8,25 +7,11 @@ namespace OctanGames.Infrastructure
     {
         public static IInputService InputService;
 
-        public Game()
-        {
-            RegisterInputService();
-        }
+        public readonly GameStateMachine StateMachine;
 
-        private static void RegisterInputService()
+        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
         {
-            if (Application.isEditor)
-            {
-                InputService = new StandaloneInputService();
-            }
-            else if (Application.isMobilePlatform)
-            {
-                InputService = new MobileInputService();
-            }
-            else
-            {
-                throw new NotSupportedException("Input is not supported on this platform");
-            }
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
         }
     }
 }
