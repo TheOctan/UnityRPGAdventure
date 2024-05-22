@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OctanGames.Logic;
 
-namespace OctanGames.Infrastructure
+namespace OctanGames.Infrastructure.States
 {
     public class GameStateMachine
     {

@@ -1,4 +1,4 @@
-namespace OctanGames.Infrastructure
+namespace OctanGames.Infrastructure.States
 {
     public class GameLoopState : IState
     {

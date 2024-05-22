@@ -2,7 +2,7 @@ using OctanGames.CameraLogic;
 using OctanGames.Logic;
 using UnityEngine;
 
-namespace OctanGames.Infrastructure
+namespace OctanGames.Infrastructure.States
 {
     public class LoadLevelState : IPayLoadedState<string>
     {
