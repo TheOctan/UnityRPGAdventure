@@ -15,11 +15,13 @@ namespace OctanGames.Infrastructure
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ServiceLocator _serviceLocator;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ServiceLocator services)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _serviceLocator = services;
         }
 
         void IState.Enter()
@@ -40,9 +42,10 @@ namespace OctanGames.Infrastructure
 
         private void RegisterServices()
         {
-            ServiceLocator.Container.RegisterSingle<IInputService>(InputService());
-            var assets = ServiceLocator.Container.Single<IAssetProvider>();
-            ServiceLocator.Container.RegisterSingle<IGameFactory>(new GameFactory(assets));
+            _serviceLocator.RegisterSingle<IInputService>(InputService());
+            _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
+            var assets = _serviceLocator.Single<IAssetProvider>();
+            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets));
         }
 
         private static IInputService InputService()

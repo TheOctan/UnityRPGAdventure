@@ -1,3 +1,4 @@
+using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.States;
 using OctanGames.Logic;
 
@@ -9,7 +10,7 @@ namespace OctanGames.Infrastructure
 
         public Game(ICoroutineRunner coroutineRunner, LoadingCurtain curtain)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain, ServiceLocator.Container);
         }
     }
 }
