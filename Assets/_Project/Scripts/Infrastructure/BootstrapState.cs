@@ -1,4 +1,7 @@
 using System;
+using OctanGames.Infrastructure.AssetManagement;
+using OctanGames.Infrastructure.Factory;
+using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.States;
 using OctanGames.Services.Input;
 using UnityEngine;
@@ -38,6 +41,9 @@ namespace OctanGames.Infrastructure
         private void RegisterServices()
         {
             Game.InputService = RegisterInputService();
+
+            var assets = ServiceLocator.Container.Single<IAssetProvider>();
+            ServiceLocator.Container.RegisterSingle<IGameFactory>(new GameFactory(assets));
         }
 
         private static IInputService RegisterInputService()

@@ -1,7 +1,7 @@
 using OctanGames.Infrastructure.AssetManagement;
 using UnityEngine;
 
-namespace OctanGames.Infrastructure
+namespace OctanGames.Infrastructure.Factory
 {
     public class GameFactory : IGameFactory
     {

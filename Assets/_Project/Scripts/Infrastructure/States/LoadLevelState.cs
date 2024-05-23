@@ -1,4 +1,5 @@
 using OctanGames.CameraLogic;
+using OctanGames.Infrastructure.Factory;
 using OctanGames.Logic;
 using UnityEngine;
 
