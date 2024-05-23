@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using OctanGames.Logic;
 
@@ -15,7 +16,7 @@ namespace OctanGames.Infrastructure.States
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }

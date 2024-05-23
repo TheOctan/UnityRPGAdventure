@@ -22,17 +22,17 @@ namespace OctanGames.Infrastructure
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _serviceLocator = services;
+
+            RegisterServices();
         }
 
         void IState.Enter()
         {
-            RegisterServices();
             _sceneLoader.Load(INITIAL_SCENE, onLoaded: EnterLoadLevel);
         }
 
         void IExitableState.Exit()
         {
-            
         }
 
         private void EnterLoadLevel()
