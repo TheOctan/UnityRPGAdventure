@@ -40,13 +40,12 @@ namespace OctanGames.Infrastructure
 
         private void RegisterServices()
         {
-            Game.InputService = RegisterInputService();
-
+            ServiceLocator.Container.RegisterSingle<IInputService>(InputService());
             var assets = ServiceLocator.Container.Single<IAssetProvider>();
             ServiceLocator.Container.RegisterSingle<IGameFactory>(new GameFactory(assets));
         }
 
-        private static IInputService RegisterInputService()
+        private static IInputService InputService()
         {
             if (Application.isEditor) return new StandaloneInputService();
             if (Application.isMobilePlatform) return new MobileInputService();
