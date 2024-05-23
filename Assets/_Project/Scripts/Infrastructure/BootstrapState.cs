@@ -1,4 +1,8 @@
 using System;
+using OctanGames.Infrastructure.AssetManagement;
+using OctanGames.Infrastructure.Factory;
+using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.States;
 using OctanGames.Services.Input;
 using UnityEngine;
 
@@ -11,22 +15,24 @@ namespace OctanGames.Infrastructure
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ServiceLocator _serviceLocator;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, ServiceLocator services)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _serviceLocator = services;
+
+            RegisterServices();
         }
 
         void IState.Enter()
         {
-            RegisterServices();
             _sceneLoader.Load(INITIAL_SCENE, onLoaded: EnterLoadLevel);
         }
 
         void IExitableState.Exit()
         {
-            
         }
 
         private void EnterLoadLevel()
@@ -36,10 +42,13 @@ namespace OctanGames.Infrastructure
 
         private void RegisterServices()
         {
-            Game.InputService = RegisterInputService();
+            _serviceLocator.RegisterSingle<IInputService>(InputService());
+            _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
+            var assets = _serviceLocator.Single<IAssetProvider>();
+            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets));
         }
 
-        private static IInputService RegisterInputService()
+        private static IInputService InputService()
         {
             if (Application.isEditor) return new StandaloneInputService();
             if (Application.isMobilePlatform) return new MobileInputService();

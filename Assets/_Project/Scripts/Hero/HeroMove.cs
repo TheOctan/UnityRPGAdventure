@@ -1,5 +1,6 @@
 using OctanGames.CameraLogic;
 using OctanGames.Infrastructure;
+using OctanGames.Infrastructure.Services;
 using OctanGames.Services.Input;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace OctanGames.Hero
 
         private void Awake()
         {
-            _inputService = Game.InputService;
+            _inputService = ServiceLocator.Container.Single<IInputService>();
         }
 
         private void Start()
