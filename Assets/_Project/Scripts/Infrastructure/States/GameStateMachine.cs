@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.Services.PersistentProgress;
+using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Logic;
 
 namespace OctanGames.Infrastructure.States
@@ -17,6 +19,7 @@ namespace OctanGames.Infrastructure.States
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>()),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPlayerProgressService>(), services.Single<ISaveLoadService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }
