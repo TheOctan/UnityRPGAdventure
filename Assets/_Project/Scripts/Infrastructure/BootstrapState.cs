@@ -2,6 +2,7 @@ using System;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.States;
 using OctanGames.Services.Input;
 using UnityEngine;
@@ -44,6 +45,7 @@ namespace OctanGames.Infrastructure
         {
             _serviceLocator.RegisterSingle<IInputService>(InputService());
             _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());
             var assets = _serviceLocator.Single<IAssetProvider>();
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets));
         }

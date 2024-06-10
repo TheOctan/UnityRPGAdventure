@@ -1,12 +1,12 @@
-using OctanGames.CameraLogic;
-using OctanGames.Infrastructure;
+using OctanGames.Data;
 using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Services.Input;
 using UnityEngine;
 
 namespace OctanGames.Hero
 {
-    public class HeroMove : MonoBehaviour
+    public class HeroMove : MonoBehaviour, ISavedProgress
     {
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private float _movementSpeed;
@@ -22,6 +22,16 @@ namespace OctanGames.Hero
         private void Start()
         {
             _camera = Camera.main;
+        }
+
+        void ISavedProgress.SaveProgress(PlayerProgress progress)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ISavedProgressReader.LoadProgress(PlayerProgress progress)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void Update()
