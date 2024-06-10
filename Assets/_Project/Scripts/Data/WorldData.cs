@@ -3,8 +3,8 @@ using System;
 namespace OctanGames.Data
 {
     [Serializable]
-    public class PlayerProgress
+    public class WorldData
     {
-        public WorldData WorldData;
+        public Vector3Data Position;
     }
 }

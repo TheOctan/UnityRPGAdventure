@@ -26,7 +26,7 @@ namespace OctanGames.Hero
 
         void ISavedProgress.SaveProgress(PlayerProgress progress)
         {
-            throw new System.NotImplementedException();
+            progress.WorldData.Position = transform.position.AsVectorData();
         }
 
         void ISavedProgressReader.LoadProgress(PlayerProgress progress)
