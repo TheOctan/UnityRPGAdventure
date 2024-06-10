@@ -13,5 +13,10 @@ namespace OctanGames.Data
             Level = level;
             Position = position;
         }
+
+        public PositionOnLevel(string initialLevel)
+        {
+            Level = initialLevel;
+        }
     }
 }
