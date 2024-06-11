@@ -4,11 +4,12 @@ namespace OctanGames.CameraLogic
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private Transform _following;
         [Header("Properties")]
         [SerializeField] private float _rotationAngleX;
         [SerializeField] private float _distance;
         [SerializeField] private float _offsetY;
+
+        private Transform _following;
 
         private void LateUpdate()
         {

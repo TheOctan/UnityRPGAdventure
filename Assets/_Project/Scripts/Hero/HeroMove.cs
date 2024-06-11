@@ -61,7 +61,7 @@ namespace OctanGames.Hero
         private void Warp(Vector3Data savedPosition)
         {
             _characterController.enabled = false;
-            transform.position = savedPosition.AsUnityVector();
+            transform.position = savedPosition.AsUnityVector().AddY(_characterController.height);
             _characterController.enabled = true;
         }
 

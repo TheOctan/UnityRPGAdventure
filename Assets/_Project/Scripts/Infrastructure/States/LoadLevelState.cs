@@ -14,7 +14,7 @@ namespace OctanGames.Infrastructure.States
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
-        private IPlayerProgressService _progressService;
+        private readonly IPlayerProgressService _progressService;
 
         public LoadLevelState(
             GameStateMachine stateMachine,
