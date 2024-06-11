@@ -46,9 +46,13 @@ namespace OctanGames.Infrastructure
             _serviceLocator.RegisterSingle<IInputService>(InputService());
             _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());
-            _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService());
+
             var assets = _serviceLocator.Single<IAssetProvider>();
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets));
+
+            var progressService = _serviceLocator.Single<IPlayerProgressService>();
+            var gameFactory = _serviceLocator.Single<IGameFactory>();
+            _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
         }
 
         private static IInputService InputService()
