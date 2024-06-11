@@ -29,6 +29,7 @@ namespace OctanGames.Infrastructure.States
         void IPayLoadedState<string>.Enter(string sceneName)
         {
             _curtain.Show();
+            _gameFactory.Cleanup();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace OctanGames.Hero
 {
-    public class HeroMove : MonoBehaviour, ISavedProgress
+    public class HeroMove : MonoBehaviour, ISavedProgressWriter
     {
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private float _movementSpeed;
@@ -43,7 +43,7 @@ namespace OctanGames.Hero
             _characterController.Move(_movementSpeed * Time.deltaTime * movementVector);
         }
 
-        void ISavedProgress.SaveProgress(PlayerProgress progress)
+        void ISavedProgressWriter.SaveProgress(PlayerProgress progress)
         {
             progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
         }
