@@ -1,12 +1,13 @@
-using OctanGames.CameraLogic;
-using OctanGames.Infrastructure;
+using OctanGames.Data;
 using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Services.Input;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace OctanGames.Hero
 {
-    public class HeroMove : MonoBehaviour
+    public class HeroMove : MonoBehaviour, ISavedProgressWriter
     {
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private float _movementSpeed;
@@ -41,5 +42,29 @@ namespace OctanGames.Hero
 
             _characterController.Move(_movementSpeed * Time.deltaTime * movementVector);
         }
+
+        void ISavedProgressWriter.SaveProgress(PlayerProgress progress)
+        {
+            progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
+        }
+
+        void ISavedProgressReader.LoadProgress(PlayerProgress progress)
+        {
+            if (CurrentLevel() != progress.WorldData.PositionOnLevel.Level) return;
+
+            Vector3Data savedPosition = progress.WorldData.PositionOnLevel.Position;
+            if (savedPosition == null) return;
+
+            Warp(savedPosition);
+        }
+
+        private void Warp(Vector3Data savedPosition)
+        {
+            _characterController.enabled = false;
+            transform.position = savedPosition.AsUnityVector().AddY(_characterController.height);
+            _characterController.enabled = true;
+        }
+
+        private static string CurrentLevel() => SceneManager.GetActiveScene().name;
     }
 }
