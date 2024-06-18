@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace OctanGames.Enemy
 {
-    [RequireComponent(typeof(Animator))]
     public class EnemyAnimator : MonoBehaviour, IAnimationStateReader
     {
         private static readonly int _attack = Animator.StringToHash("Attack_1");
