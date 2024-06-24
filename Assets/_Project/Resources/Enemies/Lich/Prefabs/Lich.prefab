@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15d5cebb9c50409c85c629654f58d920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coolDown: 3
   _triggerObserver: {fileID: 6703951073057576231}
   _follow: {fileID: 5982423651460628272}
 --- !u!1 &1537370055453520
