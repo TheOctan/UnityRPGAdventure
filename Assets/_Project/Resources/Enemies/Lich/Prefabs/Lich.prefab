@@ -395,10 +395,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4665124114459090}
   - component: {fileID: 95206231959375140}
+  - component: {fileID: 709676818601959209}
   - component: {fileID: 682740231280205406}
   - component: {fileID: 5982423651460628272}
   - component: {fileID: 5025740968446163035}
-  - component: {fileID: 709676818601959209}
+  - component: {fileID: 6536315306957840701}
   m_Layer: 0
   m_Name: Lich
   m_TagString: Untagged
@@ -445,6 +446,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!195 &709676818601959209
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500939411536426}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.1
+  m_Speed: 5
+  m_Acceleration: 15
+  avoidancePriority: 50
+  m_AngularSpeed: 1600
+  m_StoppingDistance: 1.5
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &682740231280205406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,28 +508,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _agent: {fileID: 709676818601959209}
   _animator: {fileID: 682740231280205406}
---- !u!195 &709676818601959209
-NavMeshAgent:
+--- !u!114 &6536315306957840701
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500939411536426}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.1
-  m_Speed: 5
-  m_Acceleration: 15
-  avoidancePriority: 50
-  m_AngularSpeed: 1600
-  m_StoppingDistance: 1.5
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d5cebb9c50409c85c629654f58d920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _triggerObserver: {fileID: 6703951073057576231}
+  _follow: {fileID: 5982423651460628272}
 --- !u!1 &1537370055453520
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,6 +957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8164138742058153076}
   - component: {fileID: 6895119890647484101}
+  - component: {fileID: 6703951073057576231}
   m_Layer: 13
   m_Name: AgroZone
   m_TagString: Untagged
@@ -983,5 +999,17 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 10
+  m_Radius: 4
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6703951073057576231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921134065851931644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4b3c00bab54b0da23217cb5e6dd029, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
