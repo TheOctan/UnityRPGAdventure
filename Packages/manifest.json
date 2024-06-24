@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.chenpipi.project-pin-board": "https://github.com/ichenpipi/unity-project-pin-board.git",
     "com.octangames.tools": "https://github.com/TheOctan/OctanGamesTools.git",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.3.1",
