@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using UnityEngine;
@@ -10,18 +11,26 @@ namespace OctanGames.Enemy
     {
         [Header("Properties")]
         [SerializeField] private float _attackCooldown = 3f;
+        [SerializeField] private float _cleavage = 0.5f;
+        [SerializeField] private float _effectiveDistance = 0.5f;
+
         [Header("Components")]
         [SerializeField] private EnemyAnimator _animator;
 
         private IGameFactory _gameFactory;
         private Transform _heroTransform;
+        private readonly Collider[] _hits = new Collider[1];
+
         private float _cooldown;
         private bool _isAttacking;
+        private int _layerMask;
 
         private void Start()
         {
             _gameFactory = ServiceLocator.Container.Single<IGameFactory>();
             _gameFactory.HeroCreated += OnHeroCreated;
+
+            _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
         private void Update()
@@ -36,6 +45,27 @@ namespace OctanGames.Enemy
 
         private void OnAttack()
         {
+            if (Hit(out Collider hit))
+            {
+            }
+        }
+
+        private bool Hit(out Collider hit)
+        {
+            Vector3 startPoint = StartPoint();
+
+            int hitCount = Physics.OverlapSphereNonAlloc(startPoint, _cleavage, _hits, _layerMask);
+            hit = _hits.FirstOrDefault();
+
+            return hitCount > 0;
+        }
+
+        private Vector3 StartPoint()
+        {
+            Transform enemyTransform = transform;
+            Vector3 startPoint = enemyTransform.position + Vector3.up * 0.5f +
+                                 enemyTransform.forward * _effectiveDistance;
+            return startPoint;
         }
 
         private void OnAttackEnded()
