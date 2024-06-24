@@ -1,4 +1,3 @@
-using System;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine.AI;
 
 namespace OctanGames.Enemy
 {
-    public class AgentMoveToPlayer : MonoBehaviour
+    public class AgentMoveToPlayer : Follow
     {
         private const float MINIMAL_DISTANCE = 1f;
 

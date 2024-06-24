@@ -10,7 +10,7 @@ namespace OctanGames.Enemy
 
         [Header("Components")]
         [SerializeField] private TriggerObserver _triggerObserver;
-        [SerializeField] private AgentMoveToPlayer _follow;
+        [SerializeField] private Follow _follow;
 
         private Coroutine _agroCoroutine;
         private bool _hasAgroTarget;
