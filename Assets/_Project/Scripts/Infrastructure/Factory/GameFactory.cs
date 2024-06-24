@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Services.PersistentProgress;
@@ -7,18 +8,25 @@ namespace OctanGames.Infrastructure.Factory
 {
     public class GameFactory : IGameFactory
     {
+        public event Action HeroCreated;
         private readonly IAssetProvider _assets;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgressWriter> ProgressWriters { get; } = new();
+        public GameObject HeroGameObject { get; private set; }
 
         public GameFactory(IAssetProvider assets)
         {
             _assets = assets;
         }
 
-        public GameObject CreateHero(GameObject initialPoint) =>
-            InstantiateRegistered(AssetPath.HERO_PATH, initialPoint.transform.position);
+        public GameObject CreateHero(GameObject initialPoint)
+        {
+            HeroGameObject = InstantiateRegistered(AssetPath.HERO_PATH, initialPoint.transform.position);
+            HeroCreated?.Invoke();
+
+            return HeroGameObject;
+        }
 
         public GameObject CreateHud() =>
             _assets.Instantiate(AssetPath.HUD_PATH);
