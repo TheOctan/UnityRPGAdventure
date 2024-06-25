@@ -23,6 +23,7 @@ namespace OctanGames.Enemy
         private float _cooldown;
         private bool _isAttacking;
         private int _layerMask;
+        private bool _attackIsActive;
 
         private void Start()
         {
@@ -41,6 +42,9 @@ namespace OctanGames.Enemy
                 StartAttack();
             }
         }
+
+        public void EnableAttack() => _attackIsActive = true;
+        public void DisableAttack() => _attackIsActive = false;
 
         private void OnAttack()
         {
@@ -87,7 +91,7 @@ namespace OctanGames.Enemy
             return startPoint;
         }
 
-        private bool CanAttack() => !_isAttacking && CooldownIsUp();
+        private bool CanAttack() => _attackIsActive && !_isAttacking && CooldownIsUp();
         private bool CooldownIsUp() => _cooldown <= 0;
         private void OnHeroCreated() => _heroTransform = _gameFactory.HeroGameObject.transform;
     }
