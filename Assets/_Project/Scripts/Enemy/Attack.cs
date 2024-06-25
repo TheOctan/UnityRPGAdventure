@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
@@ -47,7 +46,21 @@ namespace OctanGames.Enemy
         {
             if (Hit(out Collider hit))
             {
+                PhysicsDebug.DrawDebug(StartPoint(), _cleavage,1);
             }
+        }
+
+        private void OnAttackEnded()
+        {
+            _cooldown = _attackCooldown;
+            _isAttacking = false;
+        }
+
+        private void StartAttack()
+        {
+            transform.LookAt(_heroTransform);
+            _animator.PlayAttack();
+            _isAttacking = true;
         }
 
         private bool Hit(out Collider hit)
@@ -60,31 +73,18 @@ namespace OctanGames.Enemy
             return hitCount > 0;
         }
 
-        private Vector3 StartPoint()
-        {
-            Transform enemyTransform = transform;
-            Vector3 startPoint = enemyTransform.position + Vector3.up * 0.5f +
-                                 enemyTransform.forward * _effectiveDistance;
-            return startPoint;
-        }
-
-        private void OnAttackEnded()
-        {
-            _cooldown = _attackCooldown;
-            _isAttacking = false;
-        }
-
         private void UpdateCooldown()
         {
             if (CooldownIsUp()) return;
             _cooldown -= Time.deltaTime;
         }
 
-        private void StartAttack()
+        private Vector3 StartPoint()
         {
-            transform.LookAt(_heroTransform);
-            _animator.PlayAttack();
-            _isAttacking = true;
+            Transform enemyTransform = transform;
+            Vector3 startPoint = enemyTransform.position + Vector3.up * 0.5f +
+                                 enemyTransform.forward * _effectiveDistance;
+            return startPoint;
         }
 
         private bool CanAttack() => !_isAttacking && CooldownIsUp();
