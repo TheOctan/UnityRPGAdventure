@@ -38,6 +38,13 @@ namespace OctanGames.Infrastructure.States
                 ?? NewProgress();
         }
 
-        private static PlayerProgress NewProgress() => new(MAIN_SCENE);
+        private static PlayerProgress NewProgress()
+        {
+            var progress = new PlayerProgress(MAIN_SCENE);
+            progress.PlayerState.MaxHP = 50;
+            progress.PlayerState.ResetHP();
+            
+            return progress;
+        }
     }
 }

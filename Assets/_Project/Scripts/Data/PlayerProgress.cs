@@ -6,10 +6,12 @@ namespace OctanGames.Data
     public class PlayerProgress
     {
         public WorldData WorldData;
+        public PlayerState PlayerState;
 
         public PlayerProgress(string initialLevel)
         {
             WorldData = new WorldData(initialLevel);
+            PlayerState = new PlayerState();
         }
     }
 }
