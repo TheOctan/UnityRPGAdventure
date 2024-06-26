@@ -1,3 +1,4 @@
+using System;
 using OctanGames.Data;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace OctanGames.Hero
     [RequireComponent(typeof(HeroAnimator))]
     public class HeroHealth : MonoBehaviour, ISavedProgressWriter
     {
+        public event Action HealthChanged; 
+
         [SerializeField] private HeroAnimator _animator;
 
         private PlayerState _state;
@@ -14,7 +17,12 @@ namespace OctanGames.Hero
         public float Current
         {
             get => _state.CurrentHP;
-            set => _state.CurrentHP = value;
+            set
+            {
+                if (_state.CurrentHP == value) return;
+                _state.CurrentHP = value;
+                HealthChanged?.Invoke();
+            }
         }
 
         public float Max
@@ -33,6 +41,7 @@ namespace OctanGames.Hero
         void ISavedProgressReader.LoadProgress(PlayerProgress progress)
         {
             _state = progress.PlayerState;
+            HealthChanged?.Invoke();
         }
         void ISavedProgressWriter.SaveProgress(PlayerProgress progress)
         {

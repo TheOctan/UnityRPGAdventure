@@ -1,7 +1,9 @@
 using OctanGames.CameraLogic;
+using OctanGames.Hero;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
+using OctanGames.UI;
 using UnityEngine;
 
 namespace OctanGames.Infrastructure.States
@@ -52,10 +54,9 @@ namespace OctanGames.Infrastructure.States
 
         private void InitialGameWorld()
         {
-            GameObject initialPoint = GameObject.FindWithTag(INITIAL_POINT_TAG);
-            GameObject hero = _gameFactory.CreateHero(initialPoint);
-            _gameFactory.CreateHud();
+            GameObject hero = InitHero();
 
+            InitHud(hero);
             CameraFollow(hero);
         }
 
@@ -65,6 +66,20 @@ namespace OctanGames.Infrastructure.States
             {
                 progressReader.LoadProgress(_progressService.Progress);
             }
+        }
+
+        private GameObject InitHero()
+        {
+            GameObject initialPoint = GameObject.FindWithTag(INITIAL_POINT_TAG);
+            return _gameFactory.CreateHero(initialPoint);
+        }
+
+        private void InitHud(GameObject hero)
+        {
+            GameObject hud = _gameFactory.CreateHud();
+            var heroHealth = hero.GetComponentInChildren<HeroHealth>();
+            hud.GetComponentInChildren<ActorUI>()
+                .Construct(heroHealth);
         }
 
         private static void CameraFollow(GameObject gameObject)
