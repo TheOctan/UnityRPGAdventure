@@ -1,4 +1,5 @@
 using System.Linq;
+using OctanGames.Hero;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace OctanGames.Enemy
         [SerializeField] private float _attackCooldown = 3f;
         [SerializeField] private float _cleavage = 0.5f;
         [SerializeField] private float _effectiveDistance = 0.5f;
+        [SerializeField] private float _damage = 10f;
 
         [Header("Components")]
         [SerializeField] private EnemyAnimator _animator;
@@ -48,9 +50,12 @@ namespace OctanGames.Enemy
 
         private void OnAttack()
         {
-            if (Hit(out Collider hit))
+            if (!Hit(out Collider hit)) return;
+
+            PhysicsDebug.DrawDebug(StartPoint(), _cleavage,1);
+            if (hit.gameObject.TryGetComponent(out HeroHealth heroHealth))
             {
-                PhysicsDebug.DrawDebug(StartPoint(), _cleavage,1);
+                heroHealth.TakeDamage(_damage);
             }
         }
 
