@@ -1,4 +1,4 @@
-using OctanGames.Hero;
+using OctanGames.Logic;
 using UnityEngine;
 
 namespace OctanGames.UI
@@ -7,12 +7,20 @@ namespace OctanGames.UI
     {
         [SerializeField] private HpBar _hpBar;
 
-        private HeroHealth _heroHealth;
+        private IHealth _heroHealth;
 
-        public void Construct(HeroHealth heroHealth)
+        public void Construct(IHealth heroHealth)
         {
             _heroHealth = heroHealth;
             _heroHealth.HealthChanged += UpdateHpBar;
+        }
+
+        private void Awake()
+        {
+            var health = GetComponent<IHealth>();
+            if (health == null) return;
+
+            Construct(health);
         }
 
         private void OnDestroy()

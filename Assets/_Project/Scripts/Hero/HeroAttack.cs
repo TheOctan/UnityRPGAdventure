@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using OctanGames.Data;
+using OctanGames.Enemy;
 using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
@@ -37,6 +38,9 @@ namespace OctanGames.Hero
         private void OnAttack()
         {
             int hitCount = Hit();
+            if (hitCount == 0) return;
+
+            PhysicsDebug.DrawDebug(StartPoint(), _stats.DamageRadius,1);
             for (var i = 0; i < hitCount; i++)
             {
                 if (_hits[i].transform.parent.TryGetComponent(out IHealth health))

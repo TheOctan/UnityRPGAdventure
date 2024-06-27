@@ -77,7 +77,7 @@ namespace OctanGames.Infrastructure.States
         private void InitHud(GameObject hero)
         {
             GameObject hud = _gameFactory.CreateHud();
-            var heroHealth = hero.GetComponentInChildren<HeroHealth>();
+            var heroHealth = hero.GetComponentInChildren<IHealth>();
             hud.GetComponentInChildren<ActorUI>()
                 .Construct(heroHealth);
         }
