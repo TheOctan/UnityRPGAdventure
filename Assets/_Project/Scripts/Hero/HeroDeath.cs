@@ -8,6 +8,7 @@ namespace OctanGames.Hero
         [SerializeField] private HeroHealth _health;
         [SerializeField] private HeroMove _heroMove;
         [SerializeField] private HeroAnimator _heroAnimator;
+        [SerializeField] private HeroAttack _heroAttack;
         [SerializeField] private GameObject _deathFX;
 
         private bool _isDead;
@@ -27,6 +28,7 @@ namespace OctanGames.Hero
             _isDead = true;
             
             _heroMove.enabled = false;
+            _heroAttack.enabled = false;
             _heroAnimator.PlayDeath();
 
             Instantiate(_deathFX, transform.position, Quaternion.identity);

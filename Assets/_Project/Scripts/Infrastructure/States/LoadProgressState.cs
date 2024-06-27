@@ -8,15 +8,15 @@ namespace OctanGames.Infrastructure.States
     {
         private const string MAIN_SCENE = "Main";
 
-        private readonly GameStateMachine _gameStateMachine;
+        private readonly GameStateMachine _stateMachine;
         private readonly IPlayerProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
 
-        public LoadProgressState(GameStateMachine gameStateMachine,
+        public LoadProgressState(GameStateMachine stateMachine,
             IPlayerProgressService progressService,
             ISaveLoadService saveLoadService)
         {
-            _gameStateMachine = gameStateMachine;
+            _stateMachine = stateMachine;
             _progressService = progressService;
             _saveLoadService = saveLoadService;
         }
@@ -24,7 +24,7 @@ namespace OctanGames.Infrastructure.States
         void IState.Enter()
         {
             LoadProgressOrInitNew();
-            _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
+            _stateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
         }
 
         void IExitableState.Exit()
@@ -40,8 +40,18 @@ namespace OctanGames.Infrastructure.States
 
         private static PlayerProgress NewProgress()
         {
-            var progress = new PlayerProgress(MAIN_SCENE);
-            progress.PlayerState.MaxHP = 50;
+            var progress = new PlayerProgress(MAIN_SCENE)
+            {
+                PlayerStats =
+                {
+                    Damage = 1,
+                    DamageRadius = 0.5f
+                },
+                PlayerState =
+                {
+                    MaxHP = 50
+                }
+            };
             progress.PlayerState.ResetHP();
             
             return progress;
