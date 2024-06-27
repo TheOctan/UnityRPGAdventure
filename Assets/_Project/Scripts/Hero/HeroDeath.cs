@@ -31,7 +31,9 @@ namespace OctanGames.Hero
             _heroAttack.enabled = false;
             _heroAnimator.PlayDeath();
 
-            Instantiate(_deathFX, transform.position, Quaternion.identity);
+            SpawnDeathFx();
         }
+
+        private void SpawnDeathFx() => Instantiate(_deathFX, transform.position, Quaternion.identity);
     }
 }
