@@ -1,10 +1,11 @@
 using System;
+using OctanGames.Logic;
 using UnityEngine;
 
 namespace OctanGames.Enemy
 {
     [RequireComponent(typeof(EnemyAnimator))]
-    public class EnemyHealth : MonoBehaviour
+    public class EnemyHealth : MonoBehaviour, IHealth
     {
         public event Action HealthChanged;
 
@@ -14,9 +15,21 @@ namespace OctanGames.Enemy
         [Header("Components")]
         [SerializeField] private EnemyAnimator _animator;
 
+        public float Current
+        {
+            get => _current;
+            set => _current = value;
+        }
+
+        public float Max
+        {
+            get => _max;
+            set => _max = value;
+        }
+
         public void TakeDamage(float damage)
         {
-            _current -= damage;
+            Current -= damage;
 
             _animator.PlayHit();
             HealthChanged?.Invoke();

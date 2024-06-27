@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using OctanGames.Data;
 using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
+using OctanGames.Logic;
 using OctanGames.Services.Input;
 using UnityEngine;
 
@@ -32,8 +34,16 @@ namespace OctanGames.Hero
             _animator.PlayAttack();
         }
 
-        public void OnAttack()
+        private void OnAttack()
         {
+            int hitCount = Hit();
+            for (var i = 0; i < hitCount; i++)
+            {
+                if (_hits[i].transform.parent.TryGetComponent(out IHealth health))
+                {
+                    health.TakeDamage(_stats.Damage);
+                }
+            }
         }
 
         private int Hit() =>

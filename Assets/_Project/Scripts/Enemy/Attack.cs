@@ -1,5 +1,5 @@
 using System.Linq;
-using OctanGames.Hero;
+using OctanGames.Logic;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using UnityEngine;
@@ -53,7 +53,7 @@ namespace OctanGames.Enemy
             if (!Hit(out Collider hit)) return;
 
             PhysicsDebug.DrawDebug(StartPoint(), _cleavage,1);
-            if (hit.gameObject.TryGetComponent(out HeroHealth heroHealth))
+            if (hit.TryGetComponent(out IHealth heroHealth))
             {
                 heroHealth.TakeDamage(_damage);
             }

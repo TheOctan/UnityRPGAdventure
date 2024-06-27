@@ -1,12 +1,13 @@
 using System;
 using OctanGames.Data;
+using OctanGames.Logic;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
 
 namespace OctanGames.Hero
 {
     [RequireComponent(typeof(HeroAnimator))]
-    public class HeroHealth : MonoBehaviour, ISavedProgressWriter
+    public class HeroHealth : MonoBehaviour, ISavedProgressWriter, IHealth
     {
         public event Action HealthChanged; 
 
