@@ -15,5 +15,6 @@ namespace OctanGames.Infrastructure.Factory
         GameObject CreateHero(GameObject initialPoint);
         GameObject CreateHud();
         void Cleanup();
+        void Register(ISavedProgressReader progressReader);
     }
 }

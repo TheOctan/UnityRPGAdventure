@@ -37,26 +37,7 @@ namespace OctanGames.Infrastructure.Factory
             ProgressWriters.Clear();
         }
 
-        private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
-        {
-            GameObject gameObject = _assets.Instantiate(prefabPath, position);
-            RegisterProgressWatchers(gameObject);
-            return gameObject;
-        }
-        private GameObject InstantiateRegistered(string prefabPath)
-        {
-            GameObject gameObject = _assets.Instantiate(prefabPath);
-            RegisterProgressWatchers(gameObject);
-            return gameObject;
-        }
-        private void RegisterProgressWatchers(GameObject hero)
-        {
-            foreach (ISavedProgressReader progressReader in hero.GetComponentsInChildren<ISavedProgressReader>())
-            {
-                Register(progressReader);
-            }
-        }
-        private void Register(ISavedProgressReader progressReader)
+        public void Register(ISavedProgressReader progressReader)
         {
             if (progressReader is ISavedProgressWriter progressWriter)
             {
@@ -64,6 +45,28 @@ namespace OctanGames.Infrastructure.Factory
             }
 
             ProgressReaders.Add(progressReader);
+        }
+
+        private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
+        {
+            GameObject gameObject = _assets.Instantiate(prefabPath, position);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        private GameObject InstantiateRegistered(string prefabPath)
+        {
+            GameObject gameObject = _assets.Instantiate(prefabPath);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        private void RegisterProgressWatchers(GameObject gameObject)
+        {
+            foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
+            {
+                Register(progressReader);
+            }
         }
     }
 }
