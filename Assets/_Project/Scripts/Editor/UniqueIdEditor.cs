@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 using OctanGames.Logic;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 namespace OctanGames.Editor
 {
@@ -19,23 +20,24 @@ namespace OctanGames.Editor
             {
                 Generate(uniqueId);
             }
+            else
+            {
+                UniqueId[] uniqueIds = FindObjectsOfType<UniqueId>();
+                if (uniqueIds.Any( e => e != uniqueId && e.Id == uniqueId.Id))
+                {
+                    Generate(uniqueId);
+                }
+            }
         }
 
-        private void Generate(UniqueId uniqueId)
+        private static void Generate(UniqueId uniqueId)
         {
-            uniqueId.Id = Guid.NewGuid().ToString();
+            uniqueId.Id = $"{uniqueId.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
 
             if (Application.isPlaying) return;
 
             EditorUtility.SetDirty(uniqueId);
             EditorSceneManager.MarkSceneDirty(uniqueId.gameObject.scene);
-        }
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-
-            
         }
     }
 }
