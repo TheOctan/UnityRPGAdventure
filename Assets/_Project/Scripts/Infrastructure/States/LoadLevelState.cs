@@ -1,5 +1,4 @@
 using OctanGames.CameraLogic;
-using OctanGames.Hero;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
@@ -11,6 +10,7 @@ namespace OctanGames.Infrastructure.States
     public class LoadLevelState : IPayLoadedState<string>
     {
         private const string INITIAL_POINT_TAG = "InitialPoint";
+        private const string ENEMY_SPAWNER = "EnemySpawner";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -54,10 +54,20 @@ namespace OctanGames.Infrastructure.States
 
         private void InitialGameWorld()
         {
+            InitSpawners();
             GameObject hero = InitHero();
 
             InitHud(hero);
             CameraFollow(hero);
+        }
+
+        private void InitSpawners()
+        {
+            foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(ENEMY_SPAWNER))
+            {
+                var spawner = spawnerObject.GetComponent<EnemySpawner>();
+                _gameFactory.Register(spawner);
+            }
         }
 
         private void NotifyProgressReaders()
