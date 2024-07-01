@@ -4,13 +4,12 @@ using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.Services.SaveLoad;
-using OctanGames.Infrastructure.States;
 using OctanGames.Services;
 using OctanGames.Services.Input;
 using OctanGames.StaticData;
 using UnityEngine;
 
-namespace OctanGames.Infrastructure
+namespace OctanGames.Infrastructure.States
 {
     public class BootstrapState : IState
     {
@@ -48,15 +47,15 @@ namespace OctanGames.Infrastructure
             _serviceLocator.RegisterSingle<IInputService>(InputService());
             _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());
+            RegisterStaticData();
 
             var assets = _serviceLocator.Single<IAssetProvider>();
-            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets));
+            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets,
+                _serviceLocator.Single<IStaticDataService>()));
 
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
             _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
-
-            RegisterStaticData();
         }
 
         private void RegisterStaticData()
@@ -72,6 +71,5 @@ namespace OctanGames.Infrastructure
             if (Application.isMobilePlatform) return new MobileInputService();
             throw new NotSupportedException("Input is not supported on this platform");
         }
-
     }
 }

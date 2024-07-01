@@ -1,7 +1,5 @@
 using System.Linq;
 using OctanGames.Logic;
-using OctanGames.Infrastructure.Factory;
-using OctanGames.Infrastructure.Services;
 using UnityEngine;
 
 namespace OctanGames.Enemy
@@ -10,39 +8,36 @@ namespace OctanGames.Enemy
     public class Attack : MonoBehaviour
     {
         [Header("Properties")]
-        [SerializeField] private float _attackCooldown = 3f;
-        [SerializeField] private float _cleavage = 0.5f;
-        [SerializeField] private float _effectiveDistance = 0.5f;
-        [SerializeField] private float _damage = 10f;
+        public float AttackCooldown = 3f;
+        public float Cleavage = 0.5f;
+        public float EffectiveDistance = 0.5f;
+        public float Damage = 10f;
 
-        [Header("Components")]
-        [SerializeField] private EnemyAnimator _animator;
+        [Header("Components")] [SerializeField]
+        private EnemyAnimator _animator;
 
-        private IGameFactory _gameFactory;
         private Transform _heroTransform;
         private readonly Collider[] _hits = new Collider[1];
 
         private float _cooldown;
         private bool _isAttacking;
         private int _layerMask;
+
         private bool _attackIsActive;
 
-        private void Start()
+        public void Construct(Transform heroTransform)
         {
-            _gameFactory = ServiceLocator.Container.Single<IGameFactory>();
-            _gameFactory.HeroCreated += OnHeroCreated;
-
-            _layerMask = 1 << LayerMask.NameToLayer("Player");
+            _heroTransform = heroTransform;
         }
+
+        private void Awake() => _layerMask = 1 << LayerMask.NameToLayer("Player");
 
         private void Update()
         {
             UpdateCooldown();
 
-            if (CanAttack())
-            {
-                StartAttack();
-            }
+            if (!CanAttack()) return;
+            StartAttack();
         }
 
         public void EnableAttack() => _attackIsActive = true;
@@ -52,16 +47,16 @@ namespace OctanGames.Enemy
         {
             if (!Hit(out Collider hit)) return;
 
-            PhysicsDebug.DrawDebug(StartPoint(), _cleavage,1);
+            PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1);
             if (hit.TryGetComponent(out IHealth heroHealth))
             {
-                heroHealth.TakeDamage(_damage);
+                heroHealth.TakeDamage(Damage);
             }
         }
 
         private void OnAttackEnded()
         {
-            _cooldown = _attackCooldown;
+            _cooldown = AttackCooldown;
             _isAttacking = false;
         }
 
@@ -76,7 +71,7 @@ namespace OctanGames.Enemy
         {
             Vector3 startPoint = StartPoint();
 
-            int hitCount = Physics.OverlapSphereNonAlloc(startPoint, _cleavage, _hits, _layerMask);
+            int hitCount = Physics.OverlapSphereNonAlloc(startPoint, Cleavage, _hits, _layerMask);
             hit = _hits.FirstOrDefault();
 
             return hitCount > 0;
@@ -92,12 +87,11 @@ namespace OctanGames.Enemy
         {
             Transform enemyTransform = transform;
             Vector3 startPoint = enemyTransform.position + Vector3.up * 0.5f +
-                                 enemyTransform.forward * _effectiveDistance;
+                                 enemyTransform.forward * EffectiveDistance;
             return startPoint;
         }
 
         private bool CanAttack() => _attackIsActive && !_isAttacking && CooldownIsUp();
         private bool CooldownIsUp() => _cooldown <= 0;
-        private void OnHeroCreated() => _heroTransform = _gameFactory.HeroGameObject.transform;
     }
 }

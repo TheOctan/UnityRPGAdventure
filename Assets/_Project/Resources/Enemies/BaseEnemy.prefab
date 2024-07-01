@@ -156,10 +156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a738ae105394229b0ce83744a35074b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackCooldown: 1
-  _cleavage: 0.5
-  _effectiveDistance: 0.5
-  _damage: 10
+  AttackCooldown: 1
+  Cleavage: 0.5
+  EffectiveDistance: 0.5
+  Damage: 10
   _animator: {fileID: 682740231280205406}
 --- !u!114 &1562043525419322931
 MonoBehaviour:
