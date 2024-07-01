@@ -13,7 +13,7 @@ namespace OctanGames.StaticData
         public float Damage;
 
         [Range(0.5f, 1f)]
-        public float EffectiveDistance;
+        public float EffectiveDistance = 0.6f;
         [Range(0.5f, 1f)]
         public float Cleavage;
 

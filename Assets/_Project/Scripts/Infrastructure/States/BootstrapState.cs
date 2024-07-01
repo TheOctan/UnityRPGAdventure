@@ -5,7 +5,9 @@ using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Infrastructure.States;
+using OctanGames.Services;
 using OctanGames.Services.Input;
+using OctanGames.StaticData;
 using UnityEngine;
 
 namespace OctanGames.Infrastructure
@@ -53,6 +55,15 @@ namespace OctanGames.Infrastructure
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
             _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
+
+            RegisterStaticData();
+        }
+
+        private void RegisterStaticData()
+        {
+            var staticDataService = new StaticDataService();
+            staticDataService.LoadMonsters();
+            _serviceLocator.RegisterSingle<IStaticDataService>(staticDataService);
         }
 
         private static IInputService InputService()
