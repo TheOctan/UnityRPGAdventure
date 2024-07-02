@@ -41,6 +41,7 @@ namespace OctanGames.Enemy
             {
                 Value = _random.Next(_lootMin, _lootMax)
             };
+            loot.GetComponent<LootPiece>().Initialize(lootItem);
         }
     }
 }
