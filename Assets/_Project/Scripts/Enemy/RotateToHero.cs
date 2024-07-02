@@ -10,23 +10,10 @@ namespace OctanGames.Enemy
         [Header("Properties")]
         [SerializeField] private float _speed;
 
-        private IGameFactory _gameFactory;
         private Transform _heroTransform;
         private Vector3 _positionToLook;
 
-        private void Start()
-        {
-            _gameFactory = ServiceLocator.Container.Single<IGameFactory>();
-
-            if (HeroExists())
-            {
-                InitializeHeroTransform();
-            }
-            else
-            {
-                _gameFactory.HeroCreated += OnHeroCreated;
-            }
-        }
+        public void Construct(Transform heroTransform) => _heroTransform = heroTransform;
 
         private void Update()
         {
@@ -52,12 +39,6 @@ namespace OctanGames.Enemy
         private Quaternion SmoothedRotation(Quaternion rotation, Vector3 positionToLook) =>
             Quaternion.Lerp(rotation, Quaternion.LookRotation(positionToLook), _speed * Time.deltaTime);
 
-        private bool HeroExists() =>
-            _gameFactory.HeroGameObject != null;
-        private void OnHeroCreated() =>
-            InitializeHeroTransform();
-        private void InitializeHeroTransform() =>
-            _heroTransform = _gameFactory.HeroGameObject.transform;
         private bool Initialized() => _heroTransform != null;
     }
 }

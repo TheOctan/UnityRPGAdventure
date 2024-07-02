@@ -2,7 +2,8 @@ namespace OctanGames.StaticData
 {
     public enum MonsterType
     {
-        Lich = 0,
-        Gplem = 10
+        None = 0,
+        Lich = 1,
+        Golem = 10
     }
 }

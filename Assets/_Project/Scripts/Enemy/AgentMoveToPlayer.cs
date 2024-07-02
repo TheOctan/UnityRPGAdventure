@@ -1,5 +1,3 @@
-using OctanGames.Infrastructure.Factory;
-using OctanGames.Infrastructure.Services;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,40 +9,21 @@ namespace OctanGames.Enemy
 
         [SerializeField] private NavMeshAgent _agent;
 
-        private IGameFactory _gameFactory;
         private Transform _heroTransform;
 
-        private void Start()
+        public void Construct(Transform heroTransform) => _heroTransform = heroTransform;
+
+        private void Update() => SetDestinationForAgent();
+
+        private void SetDestinationForAgent()
         {
-            _gameFactory = ServiceLocator.Container.Single<IGameFactory>();
-
-            if (_gameFactory.HeroGameObject == null)
-            {
-                _gameFactory.HeroCreated += OnHeroCreated;
-            }
-            else
-            {
-                InitializeHeroTransform();
-            }
+            if (!Initialized() || HeroReached()) return;
+            _agent.destination = _heroTransform.position;
         }
-
-        private void Update()
-        {
-            if (Initialized() && HeroNotReached())
-            {
-                _agent.destination = _heroTransform.position;
-            }
-        }
-
-        private void OnHeroCreated() =>
-            InitializeHeroTransform();
-
-        private void InitializeHeroTransform() =>
-            _heroTransform = _gameFactory.HeroGameObject.transform;
 
         private bool Initialized() => _heroTransform != null;
 
-        private bool HeroNotReached() =>
-            Vector3.Distance(_agent.transform.position, _heroTransform.position) >= MINIMAL_DISTANCE;
+        private bool HeroReached() =>
+            Vector3.Distance(_agent.transform.position, _heroTransform.position) <= MINIMAL_DISTANCE;
     }
 }
