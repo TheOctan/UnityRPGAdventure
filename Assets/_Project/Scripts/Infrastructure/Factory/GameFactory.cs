@@ -16,15 +16,17 @@ namespace OctanGames.Infrastructure.Factory
     {
         private readonly IAssetProvider _assets;
         private readonly IStaticDataService _staticData;
+        private readonly IRandomService _randomService;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgressWriter> ProgressWriters { get; } = new();
         private GameObject HeroGameObject { get; set; }
 
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData)
+        public GameFactory(IAssetProvider assets, IStaticDataService staticData, IRandomService randomService)
         {
             _assets = assets;
             _staticData = staticData;
+            _randomService = randomService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -49,7 +51,9 @@ namespace OctanGames.Infrastructure.Factory
             monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
-            monster.GetComponentInChildren<LootSpawner>().Construct(this);
+            var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+            lootSpawner.Construct(this, _randomService);
+            lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
 
             var attack = monster.GetComponent<Attack>();
             attack.Construct(HeroGameObject.transform);

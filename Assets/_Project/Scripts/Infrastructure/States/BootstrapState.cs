@@ -47,11 +47,13 @@ namespace OctanGames.Infrastructure.States
             _serviceLocator.RegisterSingle<IInputService>(InputService());
             _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());
+            _serviceLocator.RegisterSingle<IRandomService>(new UnityRandomService());
             RegisterStaticData();
 
-            var assets = _serviceLocator.Single<IAssetProvider>();
-            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(assets,
-                _serviceLocator.Single<IStaticDataService>()));
+            _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
+                _serviceLocator.Single<IAssetProvider>(),
+                _serviceLocator.Single<IStaticDataService>(),
+                _serviceLocator.Single<IRandomService>()));
 
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
