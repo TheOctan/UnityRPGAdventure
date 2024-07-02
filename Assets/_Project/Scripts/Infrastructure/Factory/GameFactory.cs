@@ -40,8 +40,14 @@ namespace OctanGames.Infrastructure.Factory
             return HeroGameObject;
         }
 
-        public GameObject CreateHud() =>
-            _assets.Instantiate(AssetPath.HUD_PATH);
+        public GameObject CreateHud()
+        {
+            GameObject hud = _assets.Instantiate(AssetPath.HUD_PATH);
+            hud.GetComponentInChildren<LootCounter>()
+                .Construct(_progressService.Progress.WorldData);
+
+            return hud;
+        }
 
         public GameObject CreateMonster(MonsterType type, Transform parent)
         {
