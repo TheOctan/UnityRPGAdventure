@@ -11,12 +11,18 @@ namespace OctanGames.StaticData
         public int Hp;
         [Range(1f, 30f)]
         public float Damage;
+
+        [Min(0)]
+        public int MinLoot;
+        [Min(0)]
+        public int MaxLoot;
+
+        [Range(0,10)]
+        public float MoveSpeed = 3;
         [Range(0.5f, 1f)]
         public float EffectiveDistance = 0.6f;
         [Range(0.5f, 1f)]
         public float Cleavage;
-        [Range(0,10)]
-        public float MoveSpeed = 3;
 
         public GameObject Prefab;
     }

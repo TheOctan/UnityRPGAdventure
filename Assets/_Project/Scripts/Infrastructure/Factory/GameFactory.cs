@@ -16,15 +16,22 @@ namespace OctanGames.Infrastructure.Factory
     {
         private readonly IAssetProvider _assets;
         private readonly IStaticDataService _staticData;
+        private readonly IRandomService _randomService;
+        private readonly IPlayerProgressService _progressService;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgressWriter> ProgressWriters { get; } = new();
         private GameObject HeroGameObject { get; set; }
 
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData)
+        public GameFactory(IAssetProvider assets,
+            IStaticDataService staticData,
+            IRandomService randomService,
+            IPlayerProgressService progressService)
         {
             _assets = assets;
             _staticData = staticData;
+            _randomService = randomService;
+            _progressService = progressService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -33,8 +40,14 @@ namespace OctanGames.Infrastructure.Factory
             return HeroGameObject;
         }
 
-        public GameObject CreateHud() =>
-            _assets.Instantiate(AssetPath.HUD_PATH);
+        public GameObject CreateHud()
+        {
+            GameObject hud = _assets.Instantiate(AssetPath.HUD_PATH);
+            hud.GetComponentInChildren<LootCounter>()
+                .Construct(_progressService.Progress.WorldData);
+
+            return hud;
+        }
 
         public GameObject CreateMonster(MonsterType type, Transform parent)
         {
@@ -49,6 +62,10 @@ namespace OctanGames.Infrastructure.Factory
             monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
+            var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+            lootSpawner.Construct(this, _randomService);
+            lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
+
             var attack = monster.GetComponent<Attack>();
             attack.Construct(HeroGameObject.transform);
             attack.Damage = monsterData.Damage;
@@ -58,6 +75,16 @@ namespace OctanGames.Infrastructure.Factory
             monster.GetComponent<RotateToHero>()?.Construct(HeroGameObject.transform);
 
             return monster;
+        }
+
+        public LootPiece CreateLoot()
+        {
+            var lootPiece = InstantiateRegistered(AssetPath.LOOT)
+                .GetComponent<LootPiece>();
+
+            lootPiece.Construct(_progressService.Progress.WorldData);
+
+            return lootPiece;
         }
 
         public void Cleanup()

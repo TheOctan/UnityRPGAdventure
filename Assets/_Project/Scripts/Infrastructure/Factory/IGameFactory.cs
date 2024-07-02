@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OctanGames.Enemy;
 using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.StaticData;
@@ -15,5 +16,6 @@ namespace OctanGames.Infrastructure.Factory
         void Cleanup();
         void Register(ISavedProgressReader progressReader);
         GameObject CreateMonster(MonsterType type, Transform parent);
+        LootPiece CreateLoot();
     }
 }
