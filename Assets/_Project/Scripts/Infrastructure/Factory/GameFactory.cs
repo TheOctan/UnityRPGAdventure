@@ -49,6 +49,8 @@ namespace OctanGames.Infrastructure.Factory
             monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
+            monster.GetComponentInChildren<LootSpawner>().Construct(this);
+
             var attack = monster.GetComponent<Attack>();
             attack.Construct(HeroGameObject.transform);
             attack.Damage = monsterData.Damage;
@@ -59,6 +61,8 @@ namespace OctanGames.Infrastructure.Factory
 
             return monster;
         }
+
+        public GameObject CreateLoot() => InstantiateRegistered(AssetPath.LOOT);
 
         public void Cleanup()
         {

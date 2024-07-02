@@ -15,5 +15,6 @@ namespace OctanGames.Infrastructure.Factory
         void Cleanup();
         void Register(ISavedProgressReader progressReader);
         GameObject CreateMonster(MonsterType type, Transform parent);
+        GameObject CreateLoot();
     }
 }
