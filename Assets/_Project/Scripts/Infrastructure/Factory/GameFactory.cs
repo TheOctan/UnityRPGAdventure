@@ -17,16 +17,21 @@ namespace OctanGames.Infrastructure.Factory
         private readonly IAssetProvider _assets;
         private readonly IStaticDataService _staticData;
         private readonly IRandomService _randomService;
+        private readonly IPlayerProgressService _progressService;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgressWriter> ProgressWriters { get; } = new();
         private GameObject HeroGameObject { get; set; }
 
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData, IRandomService randomService)
+        public GameFactory(IAssetProvider assets,
+            IStaticDataService staticData,
+            IRandomService randomService,
+            IPlayerProgressService progressService)
         {
             _assets = assets;
             _staticData = staticData;
             _randomService = randomService;
+            _progressService = progressService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -66,7 +71,15 @@ namespace OctanGames.Infrastructure.Factory
             return monster;
         }
 
-        public GameObject CreateLoot() => InstantiateRegistered(AssetPath.LOOT);
+        public LootPiece CreateLoot()
+        {
+            var lootPiece = InstantiateRegistered(AssetPath.LOOT)
+                .GetComponent<LootPiece>();
+
+            lootPiece.Construct(_progressService.Progress.WorldData);
+
+            return lootPiece;
+        }
 
         public void Cleanup()
         {

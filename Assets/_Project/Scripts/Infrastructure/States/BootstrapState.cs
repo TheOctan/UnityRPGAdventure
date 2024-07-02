@@ -53,7 +53,8 @@ namespace OctanGames.Infrastructure.States
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
                 _serviceLocator.Single<IAssetProvider>(),
                 _serviceLocator.Single<IStaticDataService>(),
-                _serviceLocator.Single<IRandomService>()));
+                _serviceLocator.Single<IRandomService>(),
+                _serviceLocator.Single<IPlayerProgressService>()));
 
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
