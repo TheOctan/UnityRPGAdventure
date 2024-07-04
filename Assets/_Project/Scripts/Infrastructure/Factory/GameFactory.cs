@@ -3,6 +3,7 @@ using OctanGames.Enemy;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
+using OctanGames.Logic.SpawnMarker;
 using OctanGames.Services;
 using OctanGames.StaticData;
 using OctanGames.UI;
@@ -87,20 +88,20 @@ namespace OctanGames.Infrastructure.Factory
             return lootPiece;
         }
 
+        public void CreateSpawner(Vector3 position, string spawnerId, MonsterType monsterType)
+        {
+            SpawnPoint spawner = InstantiateRegistered(AssetPath.SPAWNER, position)
+                .GetComponent<SpawnPoint>()
+                .Construct(this);
+
+            spawner.Id = spawnerId;
+            spawner.MonsterTypeId = monsterType;
+        }
+
         public void Cleanup()
         {
             ProgressReaders.Clear();
             ProgressWriters.Clear();
-        }
-
-        public void Register(ISavedProgressReader progressReader)
-        {
-            if (progressReader is ISavedProgressWriter progressWriter)
-            {
-                ProgressWriters.Add(progressWriter);
-            }
-
-            ProgressReaders.Add(progressReader);
         }
 
         private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
@@ -123,6 +124,16 @@ namespace OctanGames.Infrastructure.Factory
             {
                 Register(progressReader);
             }
+        }
+
+        private void Register(ISavedProgressReader progressReader)
+        {
+            if (progressReader is ISavedProgressWriter progressWriter)
+            {
+                ProgressWriters.Add(progressWriter);
+            }
+
+            ProgressReaders.Add(progressReader);
         }
     }
 }

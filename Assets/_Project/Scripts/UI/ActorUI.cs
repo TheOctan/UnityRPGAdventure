@@ -23,14 +23,7 @@ namespace OctanGames.UI
             Construct(health);
         }
 
-        private void OnDestroy()
-        {
-            _heroHealth.HealthChanged -= UpdateHpBar;
-        }
-
-        private void UpdateHpBar()
-        {
-            _hpBar.SetValue(_heroHealth.Current, _heroHealth.Max);
-        }
+        private void OnDestroy() => _heroHealth.HealthChanged -= UpdateHpBar;
+        private void UpdateHpBar() => _hpBar.SetValue(_heroHealth.Current, _heroHealth.Max);
     }
 }

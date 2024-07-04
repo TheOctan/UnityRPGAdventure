@@ -13,9 +13,9 @@ namespace OctanGames.Infrastructure.Factory
         List<ISavedProgressWriter> ProgressWriters { get; }
         GameObject CreateHero(GameObject initialPoint);
         GameObject CreateHud();
-        void Cleanup();
-        void Register(ISavedProgressReader progressReader);
         GameObject CreateMonster(MonsterType type, Transform parent);
         LootPiece CreateLoot();
+        void CreateSpawner(Vector3 position, string spawnerId, MonsterType monsterType);
+        void Cleanup();
     }
 }
