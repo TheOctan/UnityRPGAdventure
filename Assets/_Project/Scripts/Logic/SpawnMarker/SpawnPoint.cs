@@ -9,9 +9,8 @@ namespace OctanGames.Logic.SpawnMarker
 {
     public class SpawnPoint : MonoBehaviour, ISavedProgressWriter
     {
+        public MonsterType MonsterTypeId;
         [SerializeField] private bool _slain;
-
-        public MonsterType MonsterTypeId { get; set; }
         public string Id { get; set; }
 
         private IGameFactory _gameFactory;
