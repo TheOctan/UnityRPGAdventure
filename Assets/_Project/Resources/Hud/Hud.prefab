@@ -655,6 +655,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Loot
       objectReference: {fileID: 0}
+    - target: {fileID: 9024422800003178608, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024422800003178608, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024422800003178608, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024422800003178608, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024422800003178608, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207353848726893866, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207353848726893866, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207353848726893866, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207353848726893866, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207353848726893866, guid: 1744f00747e708941a83429c89998b5c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
