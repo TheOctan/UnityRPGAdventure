@@ -5,14 +5,14 @@ using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.StaticData;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace OctanGames.Logic
 {
     public class EnemySpawner : MonoBehaviour, ISavedProgressWriter
     {
-        [SerializeField] private MonsterType _monsterTypeId;
-        private string _id;
-
+        [FormerlySerializedAs("_monsterTypeId")] public MonsterType MonsterTypeId;
+        [FormerlySerializedAs("_id")] public string Id;
         [SerializeField] private bool _slain;
 
         private IGameFactory _factory;
@@ -20,13 +20,13 @@ namespace OctanGames.Logic
 
         private void Awake()
         {
-            _id = GetComponent<UniqueId>().Id;
+            Id = GetComponent<UniqueId>().Id;
             _factory = ServiceLocator.Container.Single<IGameFactory>();
         }
 
         void ISavedProgressReader.LoadProgress(PlayerProgress progress)
         {
-            if (progress.KillData.ClearedSpawners.Contains(_id))
+            if (progress.KillData.ClearedSpawners.Contains(Id))
             {
                 _slain = true;
             }
@@ -39,12 +39,12 @@ namespace OctanGames.Logic
         void ISavedProgressWriter.SaveProgress(PlayerProgress progress)
         {
             if (!_slain) return;
-            progress.KillData.ClearedSpawners.Add(_id);
+            progress.KillData.ClearedSpawners.Add(Id);
         }
 
         private void Spawn()
         {
-            GameObject monster = _factory.CreateMonster(_monsterTypeId, transform);
+            GameObject monster = _factory.CreateMonster(MonsterTypeId, transform);
             _enemyDeath = monster.GetComponent<EnemyDeath>();
             _enemyDeath.Died += Slay;
         }

@@ -2,8 +2,11 @@ using OctanGames.CameraLogic;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
+using OctanGames.Services;
+using OctanGames.StaticData;
 using OctanGames.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace OctanGames.Infrastructure.States
 {
@@ -17,19 +20,22 @@ namespace OctanGames.Infrastructure.States
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPlayerProgressService _progressService;
+        private readonly IStaticDataService _staticData;
 
         public LoadLevelState(
             GameStateMachine stateMachine,
             SceneLoader sceneLoader,
             LoadingCurtain curtain,
             IGameFactory gameFactory,
-            IPlayerProgressService progressService)
+            IPlayerProgressService progressService,
+            IStaticDataService staticData)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
             _progressService = progressService;
+            _staticData = staticData;
         }
 
         void IPayLoadedState<string>.Enter(string sceneName)
@@ -63,10 +69,12 @@ namespace OctanGames.Infrastructure.States
 
         private void InitSpawners()
         {
-            foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(ENEMY_SPAWNER))
+            string sceneKey = SceneManager.GetActiveScene().name;
+            LevelStaticData levelData = _staticData.ForLevel(sceneKey);
+
+            foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
-                var spawner = spawnerObject.GetComponent<EnemySpawner>();
-                _gameFactory.Register(spawner);
+                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterType);
             }
         }
 

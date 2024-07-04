@@ -5,6 +5,7 @@ using OctanGames.Infrastructure.Services;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Logic;
+using OctanGames.Services;
 
 namespace OctanGames.Infrastructure.States
 {
@@ -18,8 +19,8 @@ namespace OctanGames.Infrastructure.States
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IPlayerProgressService>()),
-                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPlayerProgressService>(), services.Single<ISaveLoadService>()),
+                [typeof(LoadLevelState)] = GetLoadLevelState(sceneLoader, curtain, services),
+                [typeof(LoadProgressState)] = GetLoadProgressState(services),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }
@@ -34,6 +35,21 @@ namespace OctanGames.Infrastructure.States
         {
             IPayLoadedState<TPayload> state = ChangeState<TState>();
             state.Enter(payload);
+        }
+
+        private LoadLevelState GetLoadLevelState(SceneLoader sceneLoader, LoadingCurtain curtain, ServiceLocator services)
+        {
+            return new LoadLevelState(this, sceneLoader, curtain,
+                services.Single<IGameFactory>(),
+                services.Single<IPlayerProgressService>(),
+                services.Single<IStaticDataService>());
+        }
+
+        private LoadProgressState GetLoadProgressState(ServiceLocator services)
+        {
+            return new LoadProgressState(this,
+                services.Single<IPlayerProgressService>(),
+                services.Single<ISaveLoadService>());
         }
 
         private TState ChangeState<TState>() where TState : class, IExitableState

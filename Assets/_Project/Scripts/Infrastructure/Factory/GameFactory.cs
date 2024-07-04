@@ -87,20 +87,19 @@ namespace OctanGames.Infrastructure.Factory
             return lootPiece;
         }
 
+        public void CreateSpawner(Vector3 position, string spawnerId, MonsterType monsterType)
+        {
+            var spawner = InstantiateRegistered(AssetPath.SPAWNER, position)
+                .GetComponent<EnemySpawner>();
+
+            spawner.Id = spawnerId;
+            spawner.MonsterTypeId = monsterType;
+        }
+
         public void Cleanup()
         {
             ProgressReaders.Clear();
             ProgressWriters.Clear();
-        }
-
-        public void Register(ISavedProgressReader progressReader)
-        {
-            if (progressReader is ISavedProgressWriter progressWriter)
-            {
-                ProgressWriters.Add(progressWriter);
-            }
-
-            ProgressReaders.Add(progressReader);
         }
 
         private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
@@ -123,6 +122,16 @@ namespace OctanGames.Infrastructure.Factory
             {
                 Register(progressReader);
             }
+        }
+
+        private void Register(ISavedProgressReader progressReader)
+        {
+            if (progressReader is ISavedProgressWriter progressWriter)
+            {
+                ProgressWriters.Add(progressWriter);
+            }
+
+            ProgressReaders.Add(progressReader);
         }
     }
 }

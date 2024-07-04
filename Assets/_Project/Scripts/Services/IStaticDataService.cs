@@ -7,5 +7,6 @@ namespace OctanGames.Services
     {
         void LoadMonsters();
         MonsterStaticData ForMonster(MonsterType type);
+        LevelStaticData ForLevel(string sceneKey);
     }
 }
