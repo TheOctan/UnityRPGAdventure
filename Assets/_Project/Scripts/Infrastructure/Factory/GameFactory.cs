@@ -3,6 +3,7 @@ using OctanGames.Enemy;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
+using OctanGames.Logic.SpawnMarker;
 using OctanGames.Services;
 using OctanGames.StaticData;
 using OctanGames.UI;
@@ -89,8 +90,9 @@ namespace OctanGames.Infrastructure.Factory
 
         public void CreateSpawner(Vector3 position, string spawnerId, MonsterType monsterType)
         {
-            var spawner = InstantiateRegistered(AssetPath.SPAWNER, position)
-                .GetComponent<EnemySpawner>();
+            SpawnPoint spawner = InstantiateRegistered(AssetPath.SPAWNER, position)
+                .GetComponent<SpawnPoint>()
+                .Construct(this);
 
             spawner.Id = spawnerId;
             spawner.MonsterTypeId = monsterType;
