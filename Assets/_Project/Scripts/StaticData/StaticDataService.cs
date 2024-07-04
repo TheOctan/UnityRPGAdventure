@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using OctanGames.Data;
 using OctanGames.Services;
 using UnityEngine;
 
@@ -24,14 +25,7 @@ namespace OctanGames.StaticData
                 .ToDictionary(e => e.LevelKey, e => e);
         }
 
-        public MonsterStaticData ForMonster(MonsterType type) =>
-            _monsters.TryGetValue(type, out MonsterStaticData staticData)
-                ? staticData
-                : null;
-
-        public LevelStaticData ForLevel(string sceneKey) =>
-            _levels.TryGetValue(sceneKey, out LevelStaticData staticData)
-                ? staticData
-                : null;
+        public MonsterStaticData ForMonster(MonsterType type) => _monsters.GetValueOrNull(type);
+        public LevelStaticData ForLevel(string sceneKey) => _levels.GetValueOrNull(sceneKey);
     }
 }

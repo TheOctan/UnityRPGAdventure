@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace OctanGames.Data
@@ -15,5 +16,10 @@ namespace OctanGames.Data
 
         public static string ToJson(this object obj) => JsonUtility.ToJson(obj);
         public static T ToDeserialized<T>(this string json) => JsonUtility.FromJson<T>(json);
+        public static TValue GetValueOrNull<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> collection, TKey key)
+            where TValue : class =>
+            collection.TryGetValue(key, out TValue value)
+                ? value
+                : null;
     }
 }
