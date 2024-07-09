@@ -2,7 +2,7 @@ using OctanGames.Data;
 using TMPro;
 using UnityEngine;
 
-namespace OctanGames.UI
+namespace OctanGames.UI.Elements
 {
     public class LootCounter : MonoBehaviour
     {
