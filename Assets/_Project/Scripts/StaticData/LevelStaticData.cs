@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace OctanGames.StaticData
 {
-    [CreateAssetMenu(fileName = "LevelData", menuName = "StaticData/Level")]
+    [CreateAssetMenu(fileName = "LevelData", menuName = "Static Data/Level")]
     public class LevelStaticData : ScriptableObject
     {
         public string LevelKey;

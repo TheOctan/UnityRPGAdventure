@@ -7,6 +7,8 @@ using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Services;
 using OctanGames.Services.Input;
 using OctanGames.StaticData;
+using OctanGames.UI.Services.Factory;
+using OctanGames.UI.Services.Windows;
 using UnityEngine;
 
 namespace OctanGames.Infrastructure.States
@@ -50,15 +52,20 @@ namespace OctanGames.Infrastructure.States
             _serviceLocator.RegisterSingle<IRandomService>(new UnityRandomService());
             RegisterStaticData();
 
+            var assetProvider = _serviceLocator.Single<IAssetProvider>();
+            var staticDataService = _serviceLocator.Single<IStaticDataService>();
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
-                _serviceLocator.Single<IAssetProvider>(),
-                _serviceLocator.Single<IStaticDataService>(),
+                assetProvider, staticDataService,
                 _serviceLocator.Single<IRandomService>(),
                 _serviceLocator.Single<IPlayerProgressService>()));
 
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
             _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
+
+            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService));
+            _serviceLocator.RegisterSingle<IWindowService>(new WindowService(_serviceLocator.Single<IUIFactory>()));
+            
         }
 
         private void RegisterStaticData()

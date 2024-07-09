@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace OctanGames.StaticData
 {
-    [CreateAssetMenu(fileName = "MonsterData", menuName = "StaticData/Monster", order = 0)]
+    [CreateAssetMenu(fileName = "MonsterData", menuName = "Static Data/Monster", order = 0)]
     public class MonsterStaticData : ScriptableObject
     {
         public MonsterType MonsterTypeId;
