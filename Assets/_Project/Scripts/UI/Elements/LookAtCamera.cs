@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace OctanGames.Logic
+namespace OctanGames.UI.Elements
 {
     public class LookAtCamera : MonoBehaviour
     {

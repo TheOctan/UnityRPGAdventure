@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace OctanGames.UI
+namespace OctanGames.UI.Elements
 {
     public class HpBar : MonoBehaviour
     {

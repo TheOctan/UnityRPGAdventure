@@ -5,6 +5,7 @@ using OctanGames.Logic;
 using OctanGames.Services;
 using OctanGames.StaticData;
 using OctanGames.UI;
+using OctanGames.UI.Elements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

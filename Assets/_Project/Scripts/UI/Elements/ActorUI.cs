@@ -1,7 +1,7 @@
 using OctanGames.Logic;
 using UnityEngine;
 
-namespace OctanGames.UI
+namespace OctanGames.UI.Elements
 {
     public class ActorUI : MonoBehaviour
     {
