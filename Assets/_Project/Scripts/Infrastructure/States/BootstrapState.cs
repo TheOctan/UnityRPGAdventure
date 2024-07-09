@@ -54,8 +54,9 @@ namespace OctanGames.Infrastructure.States
 
             var assetProvider = _serviceLocator.Single<IAssetProvider>();
             var staticDataService = _serviceLocator.Single<IStaticDataService>();
+            var progressService = _serviceLocator.Single<IPlayerProgressService>();
 
-            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService));
+            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService, progressService));
             _serviceLocator.RegisterSingle<IWindowService>(new WindowService(_serviceLocator.Single<IUIFactory>()));
 
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
@@ -64,7 +65,6 @@ namespace OctanGames.Infrastructure.States
                 _serviceLocator.Single<IPlayerProgressService>(),
                 _serviceLocator.Single<IWindowService>()));
 
-            var progressService = _serviceLocator.Single<IPlayerProgressService>();
             var gameFactory = _serviceLocator.Single<IGameFactory>();
             _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
         }
