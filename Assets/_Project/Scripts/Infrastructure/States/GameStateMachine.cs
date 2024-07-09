@@ -6,6 +6,7 @@ using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Logic;
 using OctanGames.Services;
+using OctanGames.UI.Services.Factory;
 
 namespace OctanGames.Infrastructure.States
 {
@@ -42,7 +43,8 @@ namespace OctanGames.Infrastructure.States
             return new LoadLevelState(this, sceneLoader, curtain,
                 services.Single<IGameFactory>(),
                 services.Single<IPlayerProgressService>(),
-                services.Single<IStaticDataService>());
+                services.Single<IStaticDataService>(),
+                services.Single<IUIFactory>());
         }
 
         private LoadProgressState GetLoadProgressState(ServiceLocator services)

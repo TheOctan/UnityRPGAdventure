@@ -4,8 +4,8 @@ using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
 using OctanGames.Services;
 using OctanGames.StaticData;
-using OctanGames.UI;
 using OctanGames.UI.Elements;
+using OctanGames.UI.Services.Factory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +22,7 @@ namespace OctanGames.Infrastructure.States
         private readonly IGameFactory _gameFactory;
         private readonly IPlayerProgressService _progressService;
         private readonly IStaticDataService _staticData;
+        private readonly IUIFactory _uiFactory;
 
         public LoadLevelState(
             GameStateMachine stateMachine,
@@ -29,7 +30,8 @@ namespace OctanGames.Infrastructure.States
             LoadingCurtain curtain,
             IGameFactory gameFactory,
             IPlayerProgressService progressService,
-            IStaticDataService staticData)
+            IStaticDataService staticData,
+            IUIFactory uiFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -37,6 +39,7 @@ namespace OctanGames.Infrastructure.States
             _gameFactory = gameFactory;
             _progressService = progressService;
             _staticData = staticData;
+            _uiFactory = uiFactory;
         }
 
         void IPayLoadedState<string>.Enter(string sceneName)
@@ -53,11 +56,14 @@ namespace OctanGames.Infrastructure.States
 
         private void OnLoaded()
         {
+            InitUIRoot();
             InitialGameWorld();
             NotifyProgressReaders();
 
             _stateMachine.Enter<GameLoopState>();
         }
+
+        private void InitUIRoot() => _uiFactory.CreateUIRoot();
 
         private void InitialGameWorld()
         {
@@ -101,11 +107,9 @@ namespace OctanGames.Infrastructure.States
                 .Construct(heroHealth);
         }
 
-        private static void CameraFollow(GameObject gameObject)
-        {
+        private static void CameraFollow(GameObject gameObject) =>
             Camera.main
                 .GetComponent<CameraFollow>()
                 .Follow(gameObject);
-        }
     }
 }

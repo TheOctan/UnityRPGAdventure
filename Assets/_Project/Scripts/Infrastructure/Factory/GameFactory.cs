@@ -7,6 +7,7 @@ using OctanGames.Logic.SpawnMarker;
 using OctanGames.Services;
 using OctanGames.StaticData;
 using OctanGames.UI.Elements;
+using OctanGames.UI.Services.Windows;
 using UnityEngine;
 using UnityEngine.AI;
 using Object = UnityEngine.Object;
@@ -19,6 +20,7 @@ namespace OctanGames.Infrastructure.Factory
         private readonly IStaticDataService _staticData;
         private readonly IRandomService _randomService;
         private readonly IPlayerProgressService _progressService;
+        private readonly IWindowService _windowService;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new();
         public List<ISavedProgressWriter> ProgressWriters { get; } = new();
@@ -27,12 +29,14 @@ namespace OctanGames.Infrastructure.Factory
         public GameFactory(IAssetProvider assets,
             IStaticDataService staticData,
             IRandomService randomService,
-            IPlayerProgressService progressService)
+            IPlayerProgressService progressService,
+            IWindowService windowService)
         {
             _assets = assets;
             _staticData = staticData;
             _randomService = randomService;
             _progressService = progressService;
+            _windowService = windowService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -46,6 +50,11 @@ namespace OctanGames.Infrastructure.Factory
             GameObject hud = _assets.Instantiate(AssetPath.HUD_PATH);
             hud.GetComponentInChildren<LootCounter>()
                 .Construct(_progressService.Progress.WorldData);
+
+            foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>())
+            {
+                openWindowButton.Construct(_windowService);
+            }
 
             return hud;
         }
