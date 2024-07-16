@@ -2,7 +2,7 @@ using System;
 
 namespace OctanGames.Infrastructure.Services.Ads
 {
-    public interface IAdsService
+    public interface IAdsService : IService
     {
         event Action InterstitialVideoReady;
         event Action RewardedVideoReady;
