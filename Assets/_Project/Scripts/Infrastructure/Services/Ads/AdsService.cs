@@ -16,6 +16,8 @@ namespace OctanGames.Infrastructure.Services.Ads
         private const string REWARDED_IOS_PLACEMENT_ID = "Rewarded_iOS";
         private const string BANNER_IOS_PLACEMENT_ID = "Banner_iOS";
 
+        private const int REWARD_VALUE = 10;
+
         public event Action InterstitialVideoReady;
         public event Action RewardedVideoReady;
 
@@ -24,9 +26,11 @@ namespace OctanGames.Infrastructure.Services.Ads
         private string _gameId;
         private string _interstitialId;
         private string _rewardedId;
-        private string _bannerId;
+        //private string _bannerId;
 
         private bool _testMode;
+
+        public int Reward => REWARD_VALUE;
 
         public void Initialize(bool testMode = false)
         {
@@ -36,12 +40,12 @@ namespace OctanGames.Infrastructure.Services.Ads
             _gameId = IOS_GAME_ID;
             _interstitialId = INTERSTITIAL_IOS_PLACEMENT_ID;
             _rewardedId = REWARDED_IOS_PLACEMENT_ID;
-            _bannerId = BANNER_IOS_PLACEMENT_ID;
+            //_bannerId = BANNER_IOS_PLACEMENT_ID;
 #elif UNITY_ANDROID || UNITY_EDITOR
             _gameId = ANDROID_GAME_ID;
             _interstitialId = INTERSTITIAL_ANDROID_PLACEMENT_ID;
             _rewardedId = REWARDED_ANDROID_PLACEMENT_ID;
-            _bannerId = BANNER_ANDROID_PLACEMENT_ID;
+            //_bannerId = BANNER_ANDROID_PLACEMENT_ID;
 #endif
 
             if (!Advertisement.isInitialized && Advertisement.isSupported)

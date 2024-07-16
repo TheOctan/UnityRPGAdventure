@@ -58,7 +58,8 @@ namespace OctanGames.Infrastructure.States
             var staticDataService = _serviceLocator.Single<IStaticDataService>();
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
 
-            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService, progressService));
+            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService, progressService,
+                _serviceLocator.Single<IAdsService>()));
             _serviceLocator.RegisterSingle<IWindowService>(new WindowService(_serviceLocator.Single<IUIFactory>()));
 
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
@@ -73,7 +74,7 @@ namespace OctanGames.Infrastructure.States
 
         private void RegisterAdsService()
         {
-            var adsService = new AdsService();
+            IAdsService adsService = new AdsService();
             adsService.Initialize(true);
             adsService.LoadRewardedAd();
 

@@ -9,12 +9,12 @@ namespace OctanGames.UI.Windows
     {
         [SerializeField] private Button _closeButton;
 
-        protected IPlayerProgressService ProgressService;
-        protected PlayerProgress Progress => ProgressService.Progress;
+        private IPlayerProgressService _progressService;
+        protected PlayerProgress Progress => _progressService.Progress;
 
         public WindowBase Construct(IPlayerProgressService progressService)
         {
-            ProgressService = progressService;
+            _progressService = progressService;
 
             return this;
         }
