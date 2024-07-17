@@ -2,6 +2,7 @@ using System;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services;
+using OctanGames.Infrastructure.Services.Ads;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Infrastructure.Services.SaveLoad;
 using OctanGames.Services;
@@ -51,12 +52,14 @@ namespace OctanGames.Infrastructure.States
             _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());
             _serviceLocator.RegisterSingle<IRandomService>(new UnityRandomService());
             RegisterStaticData();
+            RegisterAdsService();
 
             var assetProvider = _serviceLocator.Single<IAssetProvider>();
             var staticDataService = _serviceLocator.Single<IStaticDataService>();
             var progressService = _serviceLocator.Single<IPlayerProgressService>();
 
-            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService, progressService));
+            _serviceLocator.RegisterSingle<IUIFactory>(new UIFactory(assetProvider, staticDataService, progressService,
+                _serviceLocator.Single<IAdsService>()));
             _serviceLocator.RegisterSingle<IWindowService>(new WindowService(_serviceLocator.Single<IUIFactory>()));
 
             _serviceLocator.RegisterSingle<IGameFactory>(new GameFactory(
@@ -67,6 +70,14 @@ namespace OctanGames.Infrastructure.States
 
             var gameFactory = _serviceLocator.Single<IGameFactory>();
             _serviceLocator.RegisterSingle<ISaveLoadService>(new SaveLoadService(progressService, gameFactory));
+        }
+
+        private void RegisterAdsService()
+        {
+            IAdsService adsService = new AdsService();
+            adsService.Initialize(true);
+
+            _serviceLocator.RegisterSingle<IAdsService>(adsService);
         }
 
         private void RegisterStaticData()
