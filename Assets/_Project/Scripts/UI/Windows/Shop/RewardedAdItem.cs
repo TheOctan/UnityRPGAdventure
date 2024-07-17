@@ -24,7 +24,7 @@ namespace OctanGames.UI.Windows.Shop
         public void Initialize()
         {
             _showAdButton.onClick.AddListener(OnShowButtonClicked);
-            RefreshAvailableAd(false);
+            RefreshAvailableAd(_adsService.IsRewardReady);
         }
 
         public void Subscribe() => _adsService.RewardedVideoReady += OnRewardedVideoReady;

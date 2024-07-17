@@ -7,6 +7,8 @@ namespace OctanGames.Infrastructure.Services.Ads
         event Action InterstitialVideoReady;
         event Action RewardedVideoReady;
         int Reward { get; }
+        bool IsRewardReady { get; }
+        bool IsInterstitialReady { get; }
         void Initialize(bool testMode = false);
         void LoadInterstitialAd();
         void LoadRewardedAd();

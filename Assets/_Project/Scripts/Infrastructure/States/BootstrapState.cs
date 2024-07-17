@@ -76,7 +76,6 @@ namespace OctanGames.Infrastructure.States
         {
             IAdsService adsService = new AdsService();
             adsService.Initialize(true);
-            adsService.LoadRewardedAd();
 
             _serviceLocator.RegisterSingle<IAdsService>(adsService);
         }

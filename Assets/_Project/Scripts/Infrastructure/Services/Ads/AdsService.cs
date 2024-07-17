@@ -31,6 +31,8 @@ namespace OctanGames.Infrastructure.Services.Ads
         private bool _testMode;
 
         public int Reward => REWARD_VALUE;
+        public bool IsRewardReady { get; private set; }
+        public bool IsInterstitialReady { get; private set; }
 
         public void Initialize(bool testMode = false)
         {
@@ -68,6 +70,7 @@ namespace OctanGames.Infrastructure.Services.Ads
         {
             _onVideoFinished = onVideoFinished;
             Advertisement.Show(_interstitialId, this);
+            IsInterstitialReady = false;
             LoadInterstitialAd();
         }
 
@@ -75,11 +78,15 @@ namespace OctanGames.Infrastructure.Services.Ads
         {
             _onVideoFinished = onVideoFinished;
             Advertisement.Show(_rewardedId, this);
+            IsRewardReady = false;
             LoadRewardedAd();
         }
 
-        void IUnityAdsInitializationListener.OnInitializationComplete() =>
+        void IUnityAdsInitializationListener.OnInitializationComplete()
+        {
             Debug.Log("Unity Ads initialization complete.");
+            LoadRewardedAd();
+        }
 
         void IUnityAdsInitializationListener.
             OnInitializationFailed(UnityAdsInitializationError error, string message) =>
@@ -92,15 +99,16 @@ namespace OctanGames.Infrastructure.Services.Ads
             if (placementId == _rewardedId)
             {
                 RewardedVideoReady?.Invoke();
+                IsRewardReady = true;
             }
             else if(placementId == _interstitialId)
             {
+                IsInterstitialReady = true;
                 InterstitialVideoReady?.Invoke();
             }
         }
 
-        void IUnityAdsLoadListener.
-            OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message) =>
+        void IUnityAdsLoadListener.OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message) =>
             Debug.Log(
                 $"{nameof(IUnityAdsLoadListener.OnUnityAdsFailedToLoad)} {nameof(placementId)}={placementId} {error} - {message}");
 
