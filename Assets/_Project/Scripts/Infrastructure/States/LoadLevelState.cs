@@ -16,9 +16,6 @@ namespace OctanGames.Infrastructure.States
 {
     public class LoadLevelState : IPayLoadedState<string>
     {
-        private const string INITIAL_POINT_TAG = "InitialPoint";
-        private const string ENEMY_SPAWNER = "EnemySpawner";
-
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
@@ -70,19 +67,18 @@ namespace OctanGames.Infrastructure.States
 
         private void InitialGameWorld()
         {
-            InitSpawners();
+            LevelStaticData levelData = GetLevelStaticData();
+
+            InitSpawners(levelData);
             InitLootPieces();
-            GameObject hero = InitHero();
+            GameObject hero = InitHero(levelData);
 
             InitHud(hero);
             CameraFollow(hero);
         }
 
-        private void InitSpawners()
+        private void InitSpawners(LevelStaticData levelData)
         {
-            string sceneKey = SceneManager.GetActiveScene().name;
-            LevelStaticData levelData = _staticData.ForLevel(sceneKey);
-
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
                 _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterType);
@@ -111,11 +107,8 @@ namespace OctanGames.Infrastructure.States
             }
         }
 
-        private GameObject InitHero()
-        {
-            GameObject initialPoint = GameObject.FindWithTag(INITIAL_POINT_TAG);
-            return _gameFactory.CreateHero(initialPoint);
-        }
+        private GameObject InitHero(LevelStaticData levelData) =>
+            _gameFactory.CreateHero(levelData.InitialHeroPosition);
 
         private void InitHud(GameObject hero)
         {
@@ -123,6 +116,12 @@ namespace OctanGames.Infrastructure.States
             var heroHealth = hero.GetComponentInChildren<IHealth>();
             hud.GetComponentInChildren<ActorUI>()
                 .Construct(heroHealth);
+        }
+
+        private LevelStaticData GetLevelStaticData()
+        {
+            string sceneKey = SceneManager.GetActiveScene().name;
+            return _staticData.ForLevel(sceneKey);
         }
 
         private static void CameraFollow(GameObject gameObject) =>

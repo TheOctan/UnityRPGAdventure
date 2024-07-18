@@ -39,9 +39,9 @@ namespace OctanGames.Infrastructure.Factory
             _windowService = windowService;
         }
 
-        public GameObject CreateHero(GameObject initialPoint)
+        public GameObject CreateHero(Vector3 initialPoint)
         {
-            HeroGameObject = InstantiateRegistered(AssetPath.HERO_PATH, initialPoint.transform.position);
+            HeroGameObject = InstantiateRegistered(AssetPath.HERO_PATH, initialPoint);
             return HeroGameObject;
         }
 
