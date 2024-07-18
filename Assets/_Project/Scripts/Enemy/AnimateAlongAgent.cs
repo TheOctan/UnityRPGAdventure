@@ -1,9 +1,7 @@
-using System;
-using OctanGames.Enemy;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace OctanGames.Hero
+namespace OctanGames.Enemy
 {
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(EnemyAnimator))]
@@ -13,8 +11,6 @@ namespace OctanGames.Hero
 
         [SerializeField] private NavMeshAgent _agent;
         [SerializeField] private EnemyAnimator _animator;
-
-        
 
         private void Update()
         {

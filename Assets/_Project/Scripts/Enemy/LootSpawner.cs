@@ -1,5 +1,6 @@
 using OctanGames.Data;
 using OctanGames.Infrastructure.Factory;
+using OctanGames.Logic;
 using OctanGames.Services;
 using UnityEngine;
 
@@ -34,11 +35,12 @@ namespace OctanGames.Enemy
 
         private void SpawnLoot()
         {
-            LootPiece loot = _factory.CreateLoot();
-            loot.transform.position = transform.position;
+            LootPiece lootPiece = _factory.CreateLoot();
+            lootPiece.transform.position = transform.position;
+            lootPiece.GetComponent<UniqueId>().GenerateId();
 
             Loot lootItem = GenerateLoot();
-            loot.Initialize(lootItem);
+            lootPiece.Initialize(lootItem);
         }
 
         private Loot GenerateLoot()

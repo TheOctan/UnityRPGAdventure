@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using OctanGames.CameraLogic;
+using OctanGames.Data;
+using OctanGames.Enemy;
 using OctanGames.Infrastructure.Factory;
 using OctanGames.Infrastructure.Services.PersistentProgress;
 using OctanGames.Logic;
@@ -68,6 +71,7 @@ namespace OctanGames.Infrastructure.States
         private void InitialGameWorld()
         {
             InitSpawners();
+            InitLootPieces();
             GameObject hero = InitHero();
 
             InitHud(hero);
@@ -82,6 +86,20 @@ namespace OctanGames.Infrastructure.States
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
                 _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterType);
+            }
+        }
+
+        private void InitLootPieces()
+        {
+            Dictionary<string, LootPieceData> lootPieceData =
+                _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Dictionary;
+
+            foreach (KeyValuePair<string, LootPieceData> item in lootPieceData)
+            {
+                LootPiece lootPiece = _gameFactory.CreateLoot();
+                lootPiece.GetComponent<UniqueId>().Id = item.Key;
+                lootPiece.Initialize(item.Value.Loot);
+                lootPiece.transform.position = item.Value.Position.AsUnityVector();
             }
         }
 

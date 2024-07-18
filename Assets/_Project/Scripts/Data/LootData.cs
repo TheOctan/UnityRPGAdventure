@@ -8,6 +8,7 @@ namespace OctanGames.Data
         public event Action Changed;
 
         public int Collected;
+        public LootPieceDataDictionary LootPiecesOnScene = new();
 
         public void Collect(Loot loot)
         {

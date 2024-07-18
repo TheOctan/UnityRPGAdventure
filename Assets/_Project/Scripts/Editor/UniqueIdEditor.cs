@@ -32,7 +32,7 @@ namespace OctanGames.Editor
 
         private static void Generate(UniqueId uniqueId)
         {
-            uniqueId.Id = $"{uniqueId.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
+            uniqueId.GenerateId();
 
             if (Application.isPlaying) return;
 
