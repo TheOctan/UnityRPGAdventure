@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using OctanGames.Enemy;
 using OctanGames.Infrastructure.AssetManagement;
 using OctanGames.Infrastructure.Services.PersistentProgress;
@@ -59,10 +60,13 @@ namespace OctanGames.Infrastructure.Factory
             return hud;
         }
 
-        public GameObject CreateMonster(MonsterType type, Transform parent)
+        public async Task<GameObject> CreateMonster(MonsterType type, Transform parent)
         {
             MonsterStaticData monsterData = _staticData.ForMonster(type);
-            GameObject monster = Object.Instantiate(monsterData.PrefabReference, parent.position, Quaternion.identity, parent);
+
+            GameObject prefab = await monsterData.PrefabReference.LoadAssetAsync().Task;
+            
+            GameObject monster = Object.Instantiate(prefab, parent.position, Quaternion.identity, parent);
 
             var health = monster.GetComponent<IHealth>();
             health.Current = monsterData.Hp;

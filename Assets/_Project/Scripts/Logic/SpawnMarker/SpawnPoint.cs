@@ -29,9 +29,9 @@ namespace OctanGames.Logic.SpawnMarker
             _enemyDeath.Died -= Slay;
         }
 
-        private void Spawn()
+        private async void Spawn()
         {
-            GameObject monster = _gameFactory.CreateMonster(MonsterTypeId, transform);
+            GameObject monster = await _gameFactory.CreateMonster(MonsterTypeId, transform);
             _enemyDeath = monster.GetComponent<EnemyDeath>();
             _enemyDeath.Died += Slay;
         }
