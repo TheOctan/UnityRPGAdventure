@@ -62,7 +62,7 @@ namespace OctanGames.Infrastructure.Factory
         public GameObject CreateMonster(MonsterType type, Transform parent)
         {
             MonsterStaticData monsterData = _staticData.ForMonster(type);
-            GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
+            GameObject monster = Object.Instantiate(monsterData.PrefabReference, parent.position, Quaternion.identity, parent);
 
             var health = monster.GetComponent<IHealth>();
             health.Current = monsterData.Hp;

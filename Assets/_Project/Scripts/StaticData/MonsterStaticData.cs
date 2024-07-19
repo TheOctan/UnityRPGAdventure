@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace OctanGames.StaticData
 {
@@ -24,6 +25,6 @@ namespace OctanGames.StaticData
         [Range(0.5f, 1f)]
         public float Cleavage;
 
-        public GameObject Prefab;
+        public AssetReferenceGameObject PrefabReference;
     }
 }
