@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39cb240f29241c5a646199f32b8c260, type: 3}
   m_Name: Graveyare
   m_EditorClassIdentifier: 
-  LevelKey: Main
+  LevelKey: Graveyare
   EnemySpawners:
-  - Id: Main_818dc9bc-f4eb-4195-866e-d7ed2fe87cd2
-    MonsterType: 1
-    Position: {x: 0.7819896, y: 0.16148663, z: -14.260689}
   - Id: Main_0f1e7430-9e20-4b80-9cbe-b4a0a88a3fb3
     MonsterType: 10
     Position: {x: -12.206229, y: 0.23204803, z: -14.746587}
+  - Id: Main_818dc9bc-f4eb-4195-866e-d7ed2fe87cd2
+    MonsterType: 1
+    Position: {x: 0.7819896, y: 0.16148663, z: -14.260689}
   - Id: Main_597dc54c-f8d9-4f56-b500-3ca55134b97d
     MonsterType: 1
     Position: {x: 11.55, y: 0.3606081, z: -9.66}

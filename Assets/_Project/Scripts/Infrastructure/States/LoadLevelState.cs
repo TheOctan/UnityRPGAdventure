@@ -81,6 +81,7 @@ namespace OctanGames.Infrastructure.States
         {
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
             {
+                if (spawnerData.MonsterType == MonsterType.None) continue;
                 _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterType);
             }
         }

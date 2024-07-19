@@ -47,6 +47,7 @@ namespace OctanGames.Infrastructure.States
 
         private void RegisterServices()
         {
+            _serviceLocator.RegisterSingle<IGameStateMachine>(_stateMachine);
             _serviceLocator.RegisterSingle<IInputService>(InputService());
             _serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
             _serviceLocator.RegisterSingle<IPlayerProgressService>(new PlayerProgressService());

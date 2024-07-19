@@ -6,7 +6,7 @@ namespace OctanGames.Infrastructure.States
 {
     public class LoadProgressState : IState
     {
-        private const string MAIN_SCENE = "Main";
+        private const string MAIN_SCENE = "Graveyare";
 
         private readonly GameStateMachine _stateMachine;
         private readonly IPlayerProgressService _progressService;
